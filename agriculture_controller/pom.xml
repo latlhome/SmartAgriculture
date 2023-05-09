@@ -18,6 +18,32 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.SmartAgriculture</groupId>
+            <artifactId>agriculture_common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.SmartAgriculture</groupId>
+            <artifactId>agriculture_controller</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.SmartAgriculture</groupId>
+            <artifactId>agriculture_mapper</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.SmartAgriculture</groupId>
+            <artifactId>agriculture_pojo</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.SmartAgriculture</groupId>
+            <artifactId>agriculture_service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
             <version>2.2.6.RELEASE</version>
