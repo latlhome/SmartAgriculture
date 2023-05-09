@@ -1,0 +1,17 @@
+server:
+  #  port: 8080
+  servlet:
+    context-path: /
+  max-http-header-size: 204857600 #200M
+jasypt:
+  encryptor:
+    password: JHCDJEWT
+spring:
+  security:
+    user:
+      name: admin
+      password: 123456
+  application:
+    name: Smart_agriculture
+  profiles:
+    active: dev

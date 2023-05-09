@@ -1,0 +1,127 @@
+server:
+  port: 8092
+  address:
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 1024MB #最大请求文件的大小
+      max-file-size: 1024MB #设置单个文件最大长度
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: kangkang
+    timeout: 5000
+    jedis:
+      pool:
+        min-idle: 8
+        max-idle: 500
+        max-active: 2000
+        max-wait: -1
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.8.15.213:3306/college_party?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: root
+    password: ENC(66cVQTiVFFwmzZaZFJqE1RwvTHOqC/sR)
+    druid:
+      # 数据库连接驱动
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 初始化时建立物理连接的个数
+      initial-size: 5
+      # 最大连接池数量
+      max-active: 20
+      # 最小连接池数量
+      min-idle: 5
+      # 获取连接时最大等待时间
+      max-wait: 60000
+      # 是否缓存preparedStatement，也就是PSCache。
+      pool-prepared-statements: false
+      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
+      max-pool-prepared-statement-per-connection-size: -1
+      # 用来检测连接是否有效的sql，要求是一个查询语句，常用select 'x'。
+      validation-query: SELECT 'x'
+      # 单位：秒，检测连接是否有效的超时时间。
+      validation-query-timeout: 1
+      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: false
+      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: false
+      # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      # 有两个含义：1) Destroy线程会检测连接的间隔时间，如果连接空闲时间大于等于minEvictableIdleTimeMillis则关闭物理连接。2) testWhileIdle的判断依据，详细看testWhileIdle属性的说明
+      time-between-eviction-runs-millis: 6000
+      # 连接保持空闲而不被驱逐的最小时间
+      min-evictable-idle-time-millis: 1800000
+      keep-alive: true
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      id-type: id_worker
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: AAAAAAA #JWT加解密使用的密钥
+  expiration: 86400 #JWT的超期限时间(60*60*24)
+  tokenHead: SFXY  #JWT负载中拿到开头
+
+#JimuReport[minidao配置]
+minidao :
+  base-package: org.jeecg.modules.jmreport.desreport.dao*
+  db-type: mysql
+#JimuReport[上传配置]
+jeecg :
+  jmreport:
+    # 自动保存
+    autoSave: true
+    # 单位毫秒 默认5*60*1000
+    interval: 10000
+  # local|minio|alioss
+  uploadType: local
+  # local
+  path :
+    #文件路径
+    upload: D:\images
+  # alioss
+  oss:
+    #endpoint: oss-cn-beijing.aliyuncs.com
+    #accessKey: ??
+    #secretKey: ??
+    #staticDomain: ??
+    #bucketName: ??
+  # minio
+  minio:
+    #minio_url: http://minio.jeecg.com
+    #minio_name: ??
+    #minio_pass: ??
+    #bucketName: ??
+#输出sql日志
+logging:
+  level:
+    org.jeecg.modules.jmreport : debug
+
+web:
+  images-suffix: >
+    .JPG,
+    .JPEG,
+    .PNG,
+    .GIF,
+    .BMP,
+    .png,
+    .jpg
+
+minio:
+  port: 9000
+  minioUrl: 10.2.51.187
+  region: cn-east-1
+  accessKey: party-prod
+  secretKey: party-prod-minio
+  bucketName: party-prod-bucket
