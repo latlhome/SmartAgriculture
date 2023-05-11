@@ -17,11 +17,7 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.SmartAgriculture</groupId>
-            <artifactId>agriculture_common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+
         <dependency>
             <groupId>com.SmartAgriculture</groupId>
             <artifactId>agriculture_controller</artifactId>
@@ -41,6 +37,21 @@
             <groupId>com.SmartAgriculture</groupId>
             <artifactId>agriculture_service</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
 
     </dependencies>

@@ -8,6 +8,7 @@
     </parent>
     <artifactId>agriculture_pojo</artifactId>
 
+
     <dependencies>
         <dependency>
             <groupId>com.SmartAgriculture</groupId>
