@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author: zfm
- * @Date: 2020/4/18 12:07
+ * @Author: Tlan
+ * @Date: 2023/5/12
  */
 @Configuration
 @EnableSwagger2
@@ -34,17 +34,7 @@ public class SwaggerConfig {
                 .build()
                 .securitySchemes(securitySchemes()).securityContexts(securityContexts());
     }
-    // @Bean
-    // public Docket webApiConfig2(){
-    //     return new Docket(DocumentationType.SWAGGER_2)
-    //             .groupName("mobile")
-    //             .apiInfo(webApiInfo())
-    //             .select()
-    //             .apis(RequestHandlerSelectors.basePackage("com.smart.agriculture"))
-    //             .paths(Predicates.not(PathSelectors.regex("/error.*")))
-    //             .build()
-    //             .securitySchemes(securitySchemes()).securityContexts(securityContexts());
-    // }
+
     private ApiInfo webApiInfo() {
 
         return new ApiInfoBuilder()

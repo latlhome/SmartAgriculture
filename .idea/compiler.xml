@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="agriculture_security" />
         <module name="agriculture_service" />
         <module name="agriculture_common" />
         <module name="agriculture_controller" />
@@ -21,6 +22,7 @@
       <module name="agriculture_controller" options="-parameters" />
       <module name="agriculture_mapper" options="-parameters" />
       <module name="agriculture_pojo" options="-parameters" />
+      <module name="agriculture_security" options="-parameters" />
       <module name="agriculture_service" options="-parameters" />
     </option>
   </component>
