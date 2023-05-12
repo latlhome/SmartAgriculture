@@ -6,6 +6,7 @@
         <list>
           <option value="com.baomidou:mybatis-plus-boot-starter" />
           <option value="mysql:mysql-connector-java" />
+          <option value="io.swagger:swagger-annotations" />
         </list>
       </option>
     </inspection_tool>

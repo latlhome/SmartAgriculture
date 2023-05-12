@@ -15,6 +15,7 @@
         <module>agriculture_mapper</module>
         <module>agriculture_service</module>
         <module>agriculture_pojo</module>
+        <module>agriculture_security</module>
     </modules>
 
     <properties>
@@ -24,6 +25,9 @@
         <hutool>5.6.5</hutool>
         <springfox.swagger2>2.9.2</springfox.swagger2>
         <springboot.version>2.2.1.RELEASE</springboot.version>
+        <springboot>2.2.1.RELEASE</springboot>
+        <alibaba.fastjson>1.2.62</alibaba.fastjson>
+        <jsonwebtoken.jwt>0.9.0</jsonwebtoken.jwt>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -62,6 +66,13 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
+
+            <!--安全框架-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
 <!--            lombok-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -97,6 +108,25 @@
                         <artifactId>swagger-models</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-freemarker</artifactId>
+                <version>2.2.6.RELEASE</version>
+            </dependency>
+
+            <!--JWT(Json Web Token)登录支持-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jsonwebtoken.jwt}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${alibaba.fastjson}</version>
             </dependency>
 
         </dependencies>

@@ -38,6 +38,11 @@
             <artifactId>agriculture_service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.SmartAgriculture</groupId>
+            <artifactId>agriculture_security</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -52,6 +57,28 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>3.0.1-b06</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>2.2.6</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javax.el-api</artifactId>
+                    <groupId>javax.el</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

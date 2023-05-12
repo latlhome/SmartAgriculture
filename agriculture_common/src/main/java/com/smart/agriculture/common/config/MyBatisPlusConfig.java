@@ -6,8 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Author: zfm
- * @Date: 2019/11/13 20:14
+ * MP分页插件
  */
 @Configuration
 public class MyBatisPlusConfig {
