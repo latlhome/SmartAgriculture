@@ -3,11 +3,15 @@ package com.smart.agriculture.Do;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 public class PlantDisease extends BaseDo{
     /**
      * 病害名称
