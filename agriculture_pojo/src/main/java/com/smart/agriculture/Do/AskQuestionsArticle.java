@@ -5,10 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 问答文章
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FreedomArticle extends BaseDo {
+public class AskQuestionsArticle extends BaseDo {
+
     /**
      * 作者ID
      */
@@ -34,4 +38,11 @@ public class FreedomArticle extends BaseDo {
      */
     @ApiModelProperty("配图 多个图片用#间隔")
     private String drawing;
+
+
+    /**
+     * 问题状态 -1未解决 0待处理 1已解决
+     */
+    @ApiModelProperty("问题状态 -1未解决 0待处理 1已解决")
+    private String state;
 }
