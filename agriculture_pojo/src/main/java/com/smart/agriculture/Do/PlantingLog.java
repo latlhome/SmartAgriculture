@@ -17,7 +17,6 @@ public class PlantingLog extends BaseDo{
      */
     @ApiModelProperty("标题")
     private String title;
-
     /**
      * 内容
      */
