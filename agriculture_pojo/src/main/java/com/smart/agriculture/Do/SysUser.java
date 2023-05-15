@@ -15,7 +15,6 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class SysUser extends BaseDo implements Serializable {
-
     private static final long serialVersionUID=1L;
 
     /**

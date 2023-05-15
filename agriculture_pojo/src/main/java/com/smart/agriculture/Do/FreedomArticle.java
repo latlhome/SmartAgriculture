@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class freedomArticle {
+public class FreedomArticle extends BaseDo {
     /**
      * 对应农作物编号
      */
