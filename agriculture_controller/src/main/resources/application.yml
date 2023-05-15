@@ -15,3 +15,6 @@ spring:
     name: Smart_agriculture
   profiles:
     active: dev
+model:
+  path: D:\\应用缓存文件\\QQ\\model.onnx
+  threads: 1

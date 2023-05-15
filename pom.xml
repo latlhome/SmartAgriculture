@@ -16,6 +16,7 @@
         <module>agriculture_service</module>
         <module>agriculture_pojo</module>
         <module>agriculture_security</module>
+        <module>disease_model_core</module>
     </modules>
 
     <properties>
@@ -28,6 +29,8 @@
         <springboot>2.2.1.RELEASE</springboot>
         <alibaba.fastjson>1.2.62</alibaba.fastjson>
         <jsonwebtoken.jwt>0.9.0</jsonwebtoken.jwt>
+        <onnxruntime.version>1.9.0</onnxruntime.version>
+        <opencv.version>4.5.1-2</opencv.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -87,12 +90,25 @@
                 <version>${hutool}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.openpnp</groupId>
+                <artifactId>opencv</artifactId>
+                <version>${opencv.version}</version>
+            </dependency>
+
             <!--            swagger两件套-->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox.swagger2}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.microsoft.onnxruntime</groupId>
+                <artifactId>onnxruntime</artifactId>
+                <version>${onnxruntime.version}</version>
+
+             </dependency>
             <!--API文档生成器-->
             <dependency>
                 <groupId>io.springfox</groupId>

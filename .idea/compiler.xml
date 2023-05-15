@@ -2,15 +2,17 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="agriculture_security" />
+        <module name="disease_model_core" />
         <module name="agriculture_service" />
         <module name="agriculture_common" />
-        <module name="agriculture_controller" />
         <module name="agriculture_mapper" />
+        <module name="agriculture_controller" />
         <module name="agriculture_pojo" />
       </profile>
     </annotationProcessing>
@@ -24,6 +26,7 @@
       <module name="agriculture_pojo" options="-parameters" />
       <module name="agriculture_security" options="-parameters" />
       <module name="agriculture_service" options="-parameters" />
+      <module name="disease_model_core" options="-parameters" />
     </option>
   </component>
 </project>

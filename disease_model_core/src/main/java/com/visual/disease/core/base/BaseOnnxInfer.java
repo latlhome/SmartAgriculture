@@ -1,14 +1,21 @@
+package com.visual.disease.core.base;
+
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtLoggingLevel;
 import ai.onnxruntime.OrtSession;
 
-public class onnxTest extends OpenCVLoader {
+public abstract class BaseOnnxInfer extends OpenCVLoader{
 
     private OrtEnvironment env;
     private String[] inputNames;
     private OrtSession[] sessions;
 
-    public onnxTest(String modelPath, int threads){
+    /**
+     * 构造函数
+     * @param modelPath
+     * @param threads
+     */
+    public BaseOnnxInfer(String modelPath, int threads){
         try {
             this.env = OrtEnvironment.getEnvironment();
             OrtSession.SessionOptions opts = new OrtSession.SessionOptions();
@@ -42,7 +49,7 @@ public class onnxTest extends OpenCVLoader {
      * 获取session
      * @return
      */
-    public OrtSession getSession() {
+    public  OrtSession getSession() {
         return sessions[0];
     }
 

@@ -27,15 +27,8 @@
 
         <dependency>
             <groupId>com.SmartAgriculture</groupId>
-            <artifactId>agriculture_common</artifactId>
+            <artifactId>agriculture_mapper</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <!--安全框架-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>${springboot}</version>
         </dependency>
 
         <dependency>
