@@ -6,6 +6,7 @@ import com.visual.disease.core.extract.DiseaseSearchModel;
 import com.visual.disease.core.extract.DiseaseSearchModelImpl;
 import com.visual.disease.core.models.ImagePreprocessingImpl;
 import com.visual.disease.core.models.ModelReturnDisposeImpl;
+import com.visual.disease.core.utils.PathUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration("visualModelConfig")
 public class ModelConfig {
+
     @Value("${model.path}")
     private String modelPath;
     @Value("${model.threads}")
@@ -24,6 +26,8 @@ public class ModelConfig {
      */
     @Bean(name = "ImagePreprocessing")
     public ImagePreprocessing getImagePreprocessing(){
+        PathUtil pathUtil = new PathUtil();
+        modelPath = pathUtil.getUploadResource("model.onnx");
         return new ImagePreprocessingImpl(modelPath,threads);
     }
 
