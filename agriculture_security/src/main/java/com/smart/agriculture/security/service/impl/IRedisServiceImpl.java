@@ -44,7 +44,7 @@ public class IRedisServiceImpl implements IRedisService {
      */
     @Override
     public void setToken(String key, RedisUserInfo value) {
-        stringRedisTemplate.opsForValue().set("userinfo:"+key, JSON.toJSONString(value),expiration*1000,TimeUnit.MILLISECONDS);
+        stringRedisTemplate.opsForValue().set("USER:"+key, JSON.toJSONString(value),expiration*1000,TimeUnit.MILLISECONDS);
     }
 
 
@@ -81,9 +81,14 @@ public class IRedisServiceImpl implements IRedisService {
      */
     @Override
     public RedisUserInfo get(String key) {
-        String str1 = stringRedisTemplate.opsForValue().get("userinfo:"+key);
+        String str1 = stringRedisTemplate.opsForValue().get("USER:"+key);
         if(str1==null)return null;
         return JSONUtil.toBean(str1, RedisUserInfo.class);
+    }
+
+    @Override
+    public String get(String region, String key) {
+        return stringRedisTemplate.opsForValue().get(region + ":" + key);
     }
 
     @Override

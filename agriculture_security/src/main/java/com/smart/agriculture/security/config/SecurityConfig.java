@@ -1,9 +1,10 @@
 package com.smart.agriculture.security.config;
 
 
+import com.smart.agriculture.security.pojo.premission.SysPermission;
+import com.smart.agriculture.security.pojo.security.AdminSaveDetails;
 import com.smart.agriculture.security.pojo.security.AdminUserDetails;
 import com.smart.agriculture.security.pojo.security.RedisUserInfo;
-import com.smart.agriculture.security.pojo.security.SysPermission;
 import com.smart.agriculture.security.pojo.security.SysUser;
 import com.smart.agriculture.security.service.IRedisService;
 import lombok.extern.slf4j.Slf4j;
@@ -69,17 +70,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         // 安全选项
                         "/swagger-ui.html",
                         "/webjars/**",
+                        "/sysUser/register",
+                        "/sysUser/login",
                         "/test/**",
                         "/websocket/**",
                         "/images/**",
-                        "/manager/user/login",
-                        "/manager/user/ticketLogin",
-                        "/druid/**"
-                        ,"/jmreport/**"
-                        ,"/Jmreport/**",
-                        "/common/**",
-                        "/mobile/user/**",
-                        "/moblie/common/**"
+                        "/druid/**",
+                        "/common/**"
                 )
                 .permitAll()
                 // 跨域请求会先进行一次options请求
@@ -105,33 +102,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         //获取登录用户信息
-        return userName -> {
+        return username -> {
             try {
+            String authHeader = httpServletRequest.getHeader(this.tokenHeader);
+            RedisUserInfo redisUserInfo =iRedisService.get(authHeader);
 
-                //Map<String,RedisUserInfo> redisUserInfos = iRedisService.get(userName);
-                String authHeader = httpServletRequest.getHeader(this.tokenHeader);
-                RedisUserInfo redisUserInfo =iRedisService.get(authHeader);
-                // 从redis拿权限
-                if (redisUserInfo == null) {
-                    redisUserInfo = new RedisUserInfo();
+                    // 从redis拿权限
+                    if (redisUserInfo == null) {
+                        redisUserInfo = new RedisUserInfo();
+                    }
+                    List<SysPermission> permissionList = redisUserInfo.getPermissionList();
+                    if (permissionList == null) {
+                        permissionList = new ArrayList<>();
+                    }
+
+                SysUser sysUser = userSaveDetails().getSysUser().setUsername(username);
+                return new AdminUserDetails(sysUser, permissionList);
+                } catch (Exception e) {
+                    throw new UsernameNotFoundException(e.getMessage());
                 }
-                List<SysPermission> permissionList = redisUserInfo.getPermissionList();
-                if (permissionList == null) {
-                    permissionList = new ArrayList<>();
-                }
-                SysUser user = new SysUser();
-                user.setUsername(userName);
-                return new AdminUserDetails(user, permissionList);
-            } catch (Exception e) {
-                throw new UsernameNotFoundException(e.getMessage());
-            }
-        };
+            };
     }
 
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+    @Bean
+    public AdminSaveDetails userSaveDetails() {
+        return new AdminSaveDetails();
     }
 
     @Override

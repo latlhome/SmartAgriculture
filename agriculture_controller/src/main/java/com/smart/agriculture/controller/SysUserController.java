@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  *  前端控制器
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/sysUser")
 @Api(tags="用户接口")
 public class SysUserController {
+    @Resource
     private ISysUserService userService;
 
     /**
@@ -35,7 +38,7 @@ public class SysUserController {
     @PostMapping("/login")
     @ApiOperation("用户登录")
     public CommonResult login(@RequestBody @Validated SysUserLoginDto cmsLogin){
-        RedisUserInfo redisUserInfo = userService.login(cmsLogin.getNumber(), cmsLogin.getPassword());
+        RedisUserInfo redisUserInfo = userService.login(cmsLogin.getUsername(), cmsLogin.getPassword());
         if (redisUserInfo.getToken() == null) {
             return CommonResult.failed("登录失败，或存在密码不正确");
         }

@@ -32,6 +32,12 @@ public class SysUserRegisterDto {
     @ApiModelProperty("密码")
     private String password;
 
+    /**
+     * 昵称
+     */
+    @ApiModelProperty("昵称")
+    private String nickname;
+
 
     /**
      * 性别

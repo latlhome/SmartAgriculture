@@ -1,8 +1,6 @@
 package com.smart.agriculture.security.pojo.security;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-
+import com.smart.agriculture.security.pojo.premission.SysPermission;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,30 +9,15 @@ import java.util.List;
 @Data
 public class RedisUserInfo implements Serializable {
 
-    /**
-     * 用户id
-     */
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
-    /**
-     * 用户number
-     */
-    private String username;
-
-    /**
-     * 用户name
-     */
-    private String Name;
-
-    /**
-     * 用户nickname
-     */
-    private String Nickname;
 
     /**
      * token
      */
     private String token;
+    /**
+     * 用户number
+     */
+    private String username;
 
     /**
      * 权限列表

@@ -22,7 +22,7 @@ public class SysUserLoginDto {
      */
     @ApiModelProperty("帐号")
     @NotBlank(message = "帐号不能为空")
-    private String number;
+    private String username;
 
     /**
      * 密码

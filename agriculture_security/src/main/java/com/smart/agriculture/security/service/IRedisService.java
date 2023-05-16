@@ -49,6 +49,7 @@ public interface IRedisService {
      * @return 值
      */
     RedisUserInfo get(String key);
+    String get(String region,String key);
 
 
     String get(String key,Integer i);

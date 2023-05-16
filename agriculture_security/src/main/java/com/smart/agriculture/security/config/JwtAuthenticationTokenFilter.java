@@ -47,7 +47,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
             try {
                 // 解密username
                 username = jwtTokenUtil.getUserNameFromToken(authHeader);
-                logger.info(username +"AAA");
                 // 从redis里面拿值
                 redisValue = iRedisService.get(authHeader);
             }catch (Exception e) {
