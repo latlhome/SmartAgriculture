@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- *  Mapper 接口
+ *  自由论坛帖子 接口
  * </p>
  *
  * @author ylx

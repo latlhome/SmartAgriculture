@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ *  自由论坛帖子服务实现类
  * </p>
  *
  * @author ylx

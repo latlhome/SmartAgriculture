@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ *  问答帖子流程 服务类
  * </p>
  *
  * @author ylx

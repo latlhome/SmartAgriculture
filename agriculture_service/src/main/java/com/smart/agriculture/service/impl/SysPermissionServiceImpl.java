@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * cms_permission  服务实现类
+ * SysPermissionServiceImpl  服务实现类
  * </p>
  *
  * @author ylx

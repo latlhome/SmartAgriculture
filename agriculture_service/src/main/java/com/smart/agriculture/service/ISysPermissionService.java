@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- * cms_permission  服务类
+ * ISysPermissionService  服务类
  * </p>
  *
  * @author ylx

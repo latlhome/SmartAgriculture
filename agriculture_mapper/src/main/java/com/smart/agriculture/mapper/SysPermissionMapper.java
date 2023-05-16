@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- * cms_permission  Mapper 接口
+ *   SysPermissionMapper 接口
  * </p>
  *
  * @author ylx

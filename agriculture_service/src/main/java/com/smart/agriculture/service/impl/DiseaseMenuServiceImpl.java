@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 病害菜单 服务实现类
  * </p>
  *
  * @author ylx
