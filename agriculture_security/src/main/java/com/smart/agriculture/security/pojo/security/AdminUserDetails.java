@@ -1,8 +1,6 @@
 package com.smart.agriculture.security.pojo.security;
 
 
-import com.smart.agriculture.Do.SysPermission;
-import com.smart.agriculture.Do.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

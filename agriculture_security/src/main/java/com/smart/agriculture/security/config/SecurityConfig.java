@@ -1,9 +1,10 @@
 package com.smart.agriculture.security.config;
 
-import com.smart.agriculture.Do.SysPermission;
-import com.smart.agriculture.Do.SysUser;
+
 import com.smart.agriculture.security.pojo.security.AdminUserDetails;
 import com.smart.agriculture.security.pojo.security.RedisUserInfo;
+import com.smart.agriculture.security.pojo.security.SysPermission;
+import com.smart.agriculture.security.pojo.security.SysUser;
 import com.smart.agriculture.security.service.IRedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Configuration

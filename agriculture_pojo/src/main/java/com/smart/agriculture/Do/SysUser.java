@@ -42,9 +42,9 @@ public class SysUser extends BaseDo implements Serializable {
 
     private String headPicture;
     /**
-     * 身份类型
+     * 身份类型 0管理员 1普通用户 2专家
      */
-    @ApiModelProperty("用户类型")
+    @ApiModelProperty("用户类型 0管理员 1普通用户 2专家")
     private Integer userType;
 
 

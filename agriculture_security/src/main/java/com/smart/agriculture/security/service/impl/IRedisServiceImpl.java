@@ -53,6 +53,21 @@ public class IRedisServiceImpl implements IRedisService {
         stringRedisTemplate.opsForValue().set("username:"+username, JSON.toJSONString(token),expiration*1000,TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * 存储数据并设置时间
+     *
+     * @param region 区域
+     * @param key    键
+     * @param value  值
+     * @param expire 过期时间
+     */
+    @Override
+    public void setExpire(String region, String key, String value, long expire) {
+        String rKey = region + ":" + key;
+        stringRedisTemplate.opsForValue().set(rKey, value);
+        stringRedisTemplate.expire(rKey, expire, TimeUnit.SECONDS);
+    }
+
     @Override
     public void set(String key, String value) {
         stringRedisTemplate.opsForValue().set(key, value);

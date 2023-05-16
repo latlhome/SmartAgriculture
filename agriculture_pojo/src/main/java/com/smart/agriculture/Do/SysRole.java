@@ -1,5 +1,6 @@
 package com.smart.agriculture.Do;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -22,17 +23,20 @@ public class SysRole extends BaseDo {
     /**
      * 角色中文名称 角色中文名称
      */
+    @ApiModelProperty("角色名称")
     private String name;
 
     /**
      * 权限码 权限编码
      */
+    @ApiModelProperty("权限码 权限编码")
     private String authData;
 
     /**
-     * 角色说明
+     * 对应的typeNumber
      */
-    private String remark;
+    @ApiModelProperty("对应的typeNumber")
+    private Integer typeNumber;
 
 
 }

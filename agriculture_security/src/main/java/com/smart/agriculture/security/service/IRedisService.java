@@ -26,6 +26,16 @@ public interface IRedisService {
     void setList(String username, List<String> token);
 
     /**
+     * 存储数据并设置时间
+     *
+     * @param region 区域
+     * @param key    键
+     * @param value  值
+     * @param expire 过期时间
+     */
+    void setExpire(String region, String key, String value, long expire);
+
+    /**
      * 存储数据
      *
      * @param key   键

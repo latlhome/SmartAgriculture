@@ -18,3 +18,17 @@ spring:
 model:
   path: D:\\应用缓存文件\\QQ\\model.onnx
   threads: 1
+
+web:
+  all-images: file:/work/images/
+  all-images-mapping: /images/**
+  images: /work/images/
+  photo: 0963a765614f9123b71bd48b4b9a2a69
+  images-mapping: /images
+  files: /image/
+  images-suffix: >
+    .JPG,
+    .JPEG,
+    .PNG,
+    .GIF,
+    .BMP

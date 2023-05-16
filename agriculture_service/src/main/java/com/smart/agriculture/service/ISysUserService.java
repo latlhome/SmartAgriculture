@@ -2,6 +2,8 @@ package com.smart.agriculture.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.smart.agriculture.Do.SysUser;
+import com.smart.agriculture.Dto.SysUser.SysUserRegisterDto;
+import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.security.pojo.security.RedisUserInfo;
 
 /**
@@ -14,4 +16,6 @@ import com.smart.agriculture.security.pojo.security.RedisUserInfo;
  */
 public interface ISysUserService extends IService<SysUser> {
     RedisUserInfo login(String number, String password);
+
+    CommonResult register(SysUserRegisterDto registerDto);
 }

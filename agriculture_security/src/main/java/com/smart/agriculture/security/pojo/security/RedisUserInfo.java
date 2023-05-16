@@ -2,8 +2,7 @@ package com.smart.agriculture.security.pojo.security;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.smart.agriculture.Do.SysPermission;
-import com.smart.agriculture.Vo.SysTreePermissionVo;
+
 import lombok.Data;
 
 import java.io.Serializable;
