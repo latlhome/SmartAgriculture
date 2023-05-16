@@ -14,10 +14,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class FreedomArticle extends BaseDo {
     /**
-     * 作者ID
+     * 作者Username
      */
-    @ApiModelProperty("作者ID")
-    private String authorId;
+    @ApiModelProperty("作者Username")
+    private String authorUsername;
     /**
      * 对应农作物编号
      */

@@ -31,6 +31,7 @@
         <jsonwebtoken.jwt>0.9.0</jsonwebtoken.jwt>
         <onnxruntime.version>1.9.0</onnxruntime.version>
         <opencv.version>4.5.1-2</opencv.version>
+        <mybatisplus.version>3.2.0</mybatisplus.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,6 +57,12 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${baomidou.mp}</version>
+            </dependency>
+            <!--mybatis-plus代码自动生成器-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatisplus.version}</version>
             </dependency>
 <!--            druid线程池-->
             <dependency>

@@ -27,7 +27,7 @@ public class ModelConfig {
     @Bean(name = "ImagePreprocessing")
     public ImagePreprocessing getImagePreprocessing(){
         PathUtil pathUtil = new PathUtil();
-        modelPath = pathUtil.getUploadResource("model.onnx");
+        modelPath = pathUtil.getUploadResource("model(2).onnx");
         return new ImagePreprocessingImpl(modelPath,threads);
     }
 

@@ -14,7 +14,7 @@
 // import java.io.File;
 // import java.util.Collections;
 //
-// public class OnnxPredictor extends BaseOnnxInfer implements DiseaseSearchModel {
+// public class OnnxPredictor extends BaseOnnxInfer {
 //
 //     static float sum = 0;
 //     static float success = 0;
@@ -167,6 +167,7 @@
 //             // 开始时间
 //             long stime = System.currentTimeMillis();
 //             // 进行预测
+//             OnnxTensor transform = transform(img);
 //             float[] output = predict(img);
 //             float[] softmax = Util.softmax(output);
 //

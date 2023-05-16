@@ -20,8 +20,8 @@ public class AskQuestionsArticle extends BaseDo {
     /**
      * 作者ID
      */
-    @ApiModelProperty("作者ID")
-    private String authorId;
+    @ApiModelProperty("作者Username")
+    private String authorUsername;
     /**
      * 对应农作物编号
      */

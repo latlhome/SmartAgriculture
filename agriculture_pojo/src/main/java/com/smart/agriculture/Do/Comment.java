@@ -14,15 +14,15 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Comment extends BaseDo {
     /**
-     * 发布评论者ID
+     * 发布评论者Username
      */
-    @ApiModelProperty("发布评论者ID")
-    private String releaseUserId;
+    @ApiModelProperty("发布评论者Username")
+    private String releaseUsername;
     /**
-     * 被评论ID
+     * 被评论Username
      */
     @ApiModelProperty("被评论ID")
-    private String beCommentedId;
+    private String beCommentedUsername;
     /**
      * 评论内容
      */

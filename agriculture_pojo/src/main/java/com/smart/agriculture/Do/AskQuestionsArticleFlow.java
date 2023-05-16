@@ -20,12 +20,12 @@ public class AskQuestionsArticleFlow extends BaseDo {
      * 文章ID
      */
     @ApiModelProperty("文章ID")
-    private String ArticleId;
+    private String articleId;
     /**
      * 回答人Id
      */
-    @ApiModelProperty("回答人Id")
-    private String answerUserId;
+    @ApiModelProperty("回答人Username")
+    private String answerUsername;
     /**
      * 问题回复
      */

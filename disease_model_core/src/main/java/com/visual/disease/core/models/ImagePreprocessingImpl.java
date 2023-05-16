@@ -31,7 +31,7 @@ public class ImagePreprocessingImpl extends BaseOnnxInfer implements ImagePrepro
      public BufferedImage preprocess(BufferedImage img){
         int targetWidth = 224;
         int targetHeight = 224;
-        BufferedImage resized = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage resized = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = resized.createGraphics();
         g.drawImage(img, 0, 0, targetWidth, targetHeight, null);
         g.dispose();

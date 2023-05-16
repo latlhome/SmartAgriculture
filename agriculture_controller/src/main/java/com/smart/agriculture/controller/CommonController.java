@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+
 
 @RestController
 @RequestMapping("/test")
@@ -17,5 +20,10 @@ public class CommonController {
     @PostMapping("/test")
     public CommonResult s(MultipartFile file){
         return CommonResult.success(diseaseSearchModel.PictureEvaluation(file));
+    }
+
+    @PostMapping("/test2")
+    public void s() throws IOException {
+        diseaseSearchModel.Test(new File("D:\\Study_need\\IMGS\\onnx"));
     }
 }
