@@ -15,6 +15,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+
         <dependency>
             <groupId>com.SmartAgriculture</groupId>
             <artifactId>agriculture_mapper</artifactId>

@@ -1,7 +1,8 @@
 package com.smart.agriculture.service;
 
-import com.smart.agriculture.Do.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.smart.agriculture.Do.SysUser;
+import com.smart.agriculture.security.pojo.security.RedisUserInfo;
 
 /**
  * <p>
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-05-16
  */
 public interface ISysUserService extends IService<SysUser> {
-
+    RedisUserInfo login(String number, String password);
 }

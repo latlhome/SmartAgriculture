@@ -3,6 +3,8 @@ package com.smart.agriculture.service;
 import com.smart.agriculture.Do.SysPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * ISysPermissionService  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISysPermissionService extends IService<SysPermission> {
 
+    List<String> getPermission(String number, String s);
 }
