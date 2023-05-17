@@ -1,7 +1,6 @@
 package com.smart.agriculture.security.config;
 
 
-
 import cn.hutool.json.JSONUtil;
 import com.smart.agriculture.common.utils.JwtTokenUtil;
 import com.smart.agriculture.security.pojo.security.RedisUserInfo;
@@ -13,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -39,16 +40,23 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
+        // 设置子线程共享
+        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        RequestContextHolder.setRequestAttributes(sra, true);
         // 拿到请求头
         String authHeader = httpServletRequest.getHeader(this.tokenHeader);
+        String authToken = "";
+        if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
+            authToken = authHeader.substring(this.tokenHead.length());
+        }
         if (authHeader != null) {
             String username = null;
             RedisUserInfo redisValue = null;
             try {
                 // 解密username
-                username = jwtTokenUtil.getUserNameFromToken(authHeader);
+                username = jwtTokenUtil.getUserNameFromToken(authToken);
                 // 从redis里面拿值
-                redisValue = iRedisService.get(authHeader);
+                redisValue = iRedisService.get(username);
             }catch (Exception e) {
                 logger.error(JSONUtil.toJsonStr(e));
             }

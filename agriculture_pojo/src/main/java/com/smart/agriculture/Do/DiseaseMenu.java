@@ -22,7 +22,7 @@ public class DiseaseMenu extends BaseDo {
      * 菜单类型，分为类别和植物 0 类别 1植物
      */
     @ApiModelProperty("菜单类型，分为类别和植物 0 类别 1植物")
-    private String menuType;
+    private Integer menuType;
     /**
      * 类别为类别名，植物为植物名
      */

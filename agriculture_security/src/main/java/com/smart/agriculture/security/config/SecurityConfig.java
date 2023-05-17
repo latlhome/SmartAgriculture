@@ -27,6 +27,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     @Autowired
     private IRedisService iRedisService;
-    @Autowired
+    @Resource
     private HttpServletRequest httpServletRequest;
     @Autowired
     private ApplicationContext applicationContext;
@@ -104,9 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //获取登录用户信息
         return username -> {
             try {
-            String authHeader = httpServletRequest.getHeader(this.tokenHeader);
-            RedisUserInfo redisUserInfo =iRedisService.get(authHeader);
-
+            RedisUserInfo redisUserInfo =iRedisService.get(username);
                     // 从redis拿权限
                     if (redisUserInfo == null) {
                         redisUserInfo = new RedisUserInfo();
@@ -116,7 +115,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         permissionList = new ArrayList<>();
                     }
 
-                SysUser sysUser = userSaveDetails().getSysUser().setUsername(username);
+                SysUser sysUser = new SysUser();
+                sysUser.setUsername(username);
                 return new AdminUserDetails(sysUser, permissionList);
                 } catch (Exception e) {
                     throw new UsernameNotFoundException(e.getMessage());
