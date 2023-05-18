@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface DiseaseMenuMapper extends BaseMapper<DiseaseMenu> {
 
+    Integer selectPlantById(String plantId);
 }

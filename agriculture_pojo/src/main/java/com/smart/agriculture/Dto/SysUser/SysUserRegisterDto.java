@@ -45,12 +45,6 @@ public class SysUserRegisterDto {
     @ApiModelProperty("性别")
     private Integer sex;
 
-    /**
-     * 类型 0管理员 1普通用户 2专家
-     */
-    @ApiModelProperty("类型 0管理员 1普通用户 2专家")
-    private Integer type;
-
 
     /**
      * 电话

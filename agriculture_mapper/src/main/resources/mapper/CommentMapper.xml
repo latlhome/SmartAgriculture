@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smart.agriculture.mapper.CommentMapper">
 
+    <select id="selectCommentByCode" resultType="com.smart.agriculture.Do.Comment">
+        select id ,release_username ,be_commented_code , content ,create_time
+        from comment
+        where be_commented_code = #{id} and
+              is_del = 0
+    </select>
 </mapper>

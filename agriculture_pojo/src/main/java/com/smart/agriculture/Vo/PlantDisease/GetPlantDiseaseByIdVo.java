@@ -26,7 +26,7 @@ public class GetPlantDiseaseByIdVo {
     /**
      * 示例图片 多张图片用#连接
      */
-    @ApiModelProperty("示例图片 多张图片用#连接")
+    @ApiModelProperty("示例图片--单张")
     private String samplePicture;
 
 }

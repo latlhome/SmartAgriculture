@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smart.agriculture.mapper.DiseaseMenuMapper">
 
+    <select id="selectPlantById" resultType="java.lang.Integer">
+        select count(*)
+        from disease_menu
+        where menu_type = 1 and
+            id = #{id} and
+            is_del = 0
+    </select>
 </mapper>

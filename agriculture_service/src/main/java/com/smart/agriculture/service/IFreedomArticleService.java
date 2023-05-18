@@ -1,7 +1,10 @@
 package com.smart.agriculture.service;
 
-import com.smart.agriculture.Do.FreedomArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.smart.agriculture.Do.FreedomArticle;
+import com.smart.agriculture.Dto.FreedomArticle.AddFreedomArticleDto;
+import com.smart.agriculture.Dto.FreedomArticle.SelectFreedomArticleListDto;
+import com.smart.agriculture.common.result.CommonResult;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IFreedomArticleService extends IService<FreedomArticle> {
 
+    CommonResult addFreedomArticle(AddFreedomArticleDto addFreedomArticleDto);
+
+    CommonResult selectFreedomArticleList(SelectFreedomArticleListDto dto);
+
+    CommonResult selectFreedomArticleById(String id);
 }

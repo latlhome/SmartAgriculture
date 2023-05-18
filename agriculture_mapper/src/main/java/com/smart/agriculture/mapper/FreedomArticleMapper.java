@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface FreedomArticleMapper extends BaseMapper<FreedomArticle> {
 
+    FreedomArticle selectArticleById(String id);
 }

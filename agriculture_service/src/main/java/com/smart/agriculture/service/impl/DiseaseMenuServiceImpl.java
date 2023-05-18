@@ -113,8 +113,8 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
 
     @Override
     public CommonResult updatePlant(UpdatePlantDto dto) {
-        DiseaseMenu diseaseMenu = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.PLANT.getCode()).eq(DiseaseMenu::getId, dto.getId()));
-        if (ObjectUtil.isNull(diseaseMenu)) return CommonResult.failed("更新的植物不存在！");
+        Integer integer = baseMapper.selectPlantById(dto.getId());
+        if (integer == 0) return CommonResult.failed("更新的植物不存在！");
         DiseaseMenu newDiseaseMenu = new DiseaseMenu();
         BeanUtil.copyProperties(dto,newDiseaseMenu);
         int i = baseMapper.updateById(newDiseaseMenu);
@@ -124,8 +124,8 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
 
     @Override
     public CommonResult deletePlant(String id) {
-        DiseaseMenu diseaseMenu = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.PLANT.getCode()).eq(DiseaseMenu::getId,id));
-        if (ObjectUtil.isNull(diseaseMenu)) return CommonResult.failed("要删除的植物不存在！");
+        Integer integer = baseMapper.selectPlantById(id);
+        if (integer == 0) return CommonResult.failed("要删除的植物不存在！");
         List<PlantDisease> plantDiseases = diseaseMapper.selectList(new QueryWrapper<PlantDisease>().lambda().eq(PlantDisease::getPlantId, id));
         if (ObjectUtil.isNotNull(plantDiseases)) return CommonResult.failed("该植物下还有相关病害，请确保全部删除之后删除植物！");
         int i = baseMapper.deleteById(id);

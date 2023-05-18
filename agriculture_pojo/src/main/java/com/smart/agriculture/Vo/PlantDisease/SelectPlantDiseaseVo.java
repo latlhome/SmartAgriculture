@@ -3,6 +3,8 @@ package com.smart.agriculture.Vo.PlantDisease;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class SelectPlantDiseaseVo {
     /**
@@ -44,5 +46,5 @@ public class SelectPlantDiseaseVo {
      * 示例图片 多张图片用#连接
      */
     @ApiModelProperty("示例图片 多张图片用#连接")
-    private String samplePicture;
+    private List<String> samplePicture;
 }
