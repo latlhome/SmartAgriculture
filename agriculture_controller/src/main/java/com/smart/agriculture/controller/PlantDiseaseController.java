@@ -1,15 +1,14 @@
 package com.smart.agriculture.controller;
 
 
+import com.smart.agriculture.Dto.ByIdPage;
 import com.smart.agriculture.Dto.PlantDisease.AddPlantDiseaseDto;
+import com.smart.agriculture.Dto.PlantDisease.UpdatePlantDiseaseDto;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.service.IPlantDiseaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -29,9 +28,31 @@ public class PlantDiseaseController {
     private IPlantDiseaseService plantDiseaseService;
 
     @PostMapping("/addPlantDisease")
-    @ApiOperation("增添类别下植物")
+    @ApiOperation("增添植物下病害")
     public CommonResult addPlantDisease(@RequestBody AddPlantDiseaseDto addPlantDiseaseDto){
         return plantDiseaseService.addPlantDisease(addPlantDiseaseDto);
+    }
+
+    @PutMapping("/updatePlantDisease")
+    @ApiOperation("更新植物下病害")
+    public CommonResult updatePlantDisease(@RequestBody UpdatePlantDiseaseDto updatePlantDiseaseDto){
+        return plantDiseaseService.updatePlantDisease(updatePlantDiseaseDto);
+    }
+    @DeleteMapping("/deletePlantDisease/{id}")
+    @ApiOperation("删除植物下病害")
+    public CommonResult deletePlantDisease(@PathVariable("id") String id){
+        return plantDiseaseService.deletePlantDisease(id);
+    }
+    @GetMapping("/getPlantDiseasesById")
+    @ApiOperation("查询植物下病害")
+    public CommonResult getPlantDiseasesById(ByIdPage page){
+        return plantDiseaseService.getPlantDiseasesById(page);
+    }
+
+    @GetMapping("/getPlantDiseaseById/{id}")
+    @ApiOperation("根据病害ID查询病害具体内容")
+    public CommonResult selectPlantDiseaseById(@PathVariable("id") String id){
+        return plantDiseaseService.selectPlantDiseaseById(id);
     }
 
 }

@@ -1,7 +1,9 @@
 package com.smart.agriculture.controller;
 
 
+import com.smart.agriculture.Dto.ByIdPage;
 import com.smart.agriculture.Dto.DiseaseMenu.*;
+import com.smart.agriculture.Dto.PageDto;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.service.IDiseaseMenuService;
 import io.swagger.annotations.Api;
@@ -33,7 +35,7 @@ public class DiseaseMenuController {
     }
     @PutMapping("/updateCategory")
     @ApiOperation("修改类别")
-    public CommonResult updateCategory(@RequestBody @Validated UpdateCategoryDto updateCategoryDto){
+    public CommonResult updateCategory(@RequestBody UpdateCategoryDto updateCategoryDto){
         return diseaseMenuService.updateCategory(updateCategoryDto);
     }
     @DeleteMapping("/deleteCategory/{id}")
@@ -44,8 +46,8 @@ public class DiseaseMenuController {
 
     @GetMapping("/getCategoryList")
     @ApiOperation("获取类别列表")
-    public CommonResult getCategoryList(){
-        return diseaseMenuService.getCategory();
+    public CommonResult getCategoryList(PageDto pageDto){
+        return diseaseMenuService.getCategory(pageDto);
     }
 
     @PostMapping("/addPlant")
@@ -64,15 +66,15 @@ public class DiseaseMenuController {
         return diseaseMenuService.deletePlant(id);
     }
 
-    @GetMapping("/getPlantsByCategoryId/{id}")
+    @GetMapping("/getPlantsByCategoryId")
     @ApiOperation("获取类别下植物列表")
-    public CommonResult getPlantsByCategoryId(@PathVariable("id")String id){
-        return diseaseMenuService.getPlantsByCategoryId(id);
+    public CommonResult getPlantsByCategoryId(ByIdPage page){
+        return diseaseMenuService.getPlantsByCategoryId(page);
     }
 
-    @GetMapping("/plantToOtherCategory")
+    @PostMapping("/plantToOtherCategory")
     @ApiOperation("将植物移到其他类别下")
-    public CommonResult plantToOtherCategory(PlantToOtherCategoryDto dto){
+    public CommonResult plantToOtherCategory(@RequestBody PlantToOtherCategoryDto dto){
         return diseaseMenuService.plantToOtherCategory(dto);
     }
 }

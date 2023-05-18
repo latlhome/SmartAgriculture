@@ -2,18 +2,26 @@ package com.smart.agriculture.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.smart.agriculture.Do.DiseaseMenu;
+import com.smart.agriculture.Do.PlantDisease;
+import com.smart.agriculture.Dto.ByIdPage;
 import com.smart.agriculture.Dto.DiseaseMenu.*;
+import com.smart.agriculture.Dto.PageDto;
 import com.smart.agriculture.Vo.DiseaseMenu.GetCategoryVo;
 import com.smart.agriculture.Vo.DiseaseMenu.GetPlantsByCategoryIdVo;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.enums.DiseaseMenu.MenuType;
 import com.smart.agriculture.mapper.DiseaseMenuMapper;
+import com.smart.agriculture.mapper.PlantDiseaseMapper;
 import com.smart.agriculture.service.IDiseaseMenuService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +35,8 @@ import java.util.List;
  */
 @Service
 public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, DiseaseMenu> implements IDiseaseMenuService {
+    @Resource
+    private PlantDiseaseMapper diseaseMapper;
 
     @Override
     public CommonResult addCategory(AddCategoryDto dto) {
@@ -89,12 +99,13 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     }
 
     @Override
-    public CommonResult getCategory() {
+    public CommonResult getCategory(PageDto pageDto) {
         List<GetCategoryVo> vo = new ArrayList<>();
-        List<DiseaseMenu> diseaseMenus = baseMapper.selectList(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getCategoryId, MenuType.CATEGORY.getCode()));
-        for (DiseaseMenu diseaseMenu : diseaseMenus) {
+        LambdaQueryWrapper<DiseaseMenu> lambda = new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getCategoryId, MenuType.CATEGORY.getCode());
+        IPage<DiseaseMenu> diseaseMenus = baseMapper.selectPage(new Page<>(pageDto.getPageNum(), pageDto.getPageSize()), lambda);
+        for (DiseaseMenu diseaseMenu : diseaseMenus.getRecords()) {
             GetCategoryVo getCategoryVo = new GetCategoryVo();
-            BeanUtil.copyProperties(getCategoryVo,diseaseMenu);
+            BeanUtil.copyProperties(diseaseMenu,getCategoryVo);
             vo.add(getCategoryVo);
         }
         return CommonResult.success(vo);
@@ -115,20 +126,23 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     public CommonResult deletePlant(String id) {
         DiseaseMenu diseaseMenu = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.PLANT.getCode()).eq(DiseaseMenu::getId,id));
         if (ObjectUtil.isNull(diseaseMenu)) return CommonResult.failed("要删除的植物不存在！");
+        List<PlantDisease> plantDiseases = diseaseMapper.selectList(new QueryWrapper<PlantDisease>().lambda().eq(PlantDisease::getPlantId, id));
+        if (ObjectUtil.isNotNull(plantDiseases)) return CommonResult.failed("该植物下还有相关病害，请确保全部删除之后删除植物！");
         int i = baseMapper.deleteById(id);
         if (i>0) return CommonResult.success("删除成功!");
         else return CommonResult.failed("删除出错！");
     }
 
     @Override
-    public CommonResult getPlantsByCategoryId(String id) {
+    public CommonResult getPlantsByCategoryId(ByIdPage page) {
         List<GetPlantsByCategoryIdVo> vo = new ArrayList<>();
-        DiseaseMenu diseaseMenu = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.CATEGORY.getCode()).eq(DiseaseMenu::getId, id));
+        DiseaseMenu diseaseMenu = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.CATEGORY.getCode()).eq(DiseaseMenu::getId, page.getId()));
         if (ObjectUtil.isNull(diseaseMenu)) return CommonResult.failed("查找的类别不存在！");
-        List<DiseaseMenu> diseaseMenus = baseMapper.selectList(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.PLANT.getCode()).eq(DiseaseMenu::getCategoryId, id));
-        for (DiseaseMenu menu : diseaseMenus) {
+        LambdaQueryWrapper<DiseaseMenu> lambda = new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.PLANT.getCode()).eq(DiseaseMenu::getCategoryId, page.getId());
+        IPage<DiseaseMenu> diseaseMenus = baseMapper.selectPage(new Page<>(page.getPageNum(), page.getPageSize()),lambda);
+        for (DiseaseMenu menu : diseaseMenus.getRecords()) {
             GetPlantsByCategoryIdVo getPlantsByCategoryIdVo = new GetPlantsByCategoryIdVo();
-            BeanUtil.copyProperties(getPlantsByCategoryIdVo,menu);
+            BeanUtil.copyProperties(menu,getPlantsByCategoryIdVo);
             vo.add(getPlantsByCategoryIdVo);
         }
         return CommonResult.success(vo);

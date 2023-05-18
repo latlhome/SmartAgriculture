@@ -18,7 +18,7 @@ public class UpdateCategoryDto {
      */
     @NotBlank
     @ApiModelProperty("类别名称")
-    private String categoryName;
+    private String name;
     /**
      * 类别对应图片
      */

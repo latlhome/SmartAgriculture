@@ -2,7 +2,9 @@ package com.smart.agriculture.service;
 
 import com.smart.agriculture.Do.DiseaseMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.smart.agriculture.Dto.ByIdPage;
 import com.smart.agriculture.Dto.DiseaseMenu.*;
+import com.smart.agriculture.Dto.PageDto;
 import com.smart.agriculture.common.result.CommonResult;
 
 /**
@@ -23,13 +25,13 @@ public interface IDiseaseMenuService extends IService<DiseaseMenu> {
 
     CommonResult deleteCategory(String id);
 
-    CommonResult getCategory();
+    CommonResult getCategory(PageDto pageDto);
 
     CommonResult updatePlant(UpdatePlantDto updatePlantDto);
 
     CommonResult deletePlant(String id);
 
-    CommonResult getPlantsByCategoryId(String id);
+    CommonResult getPlantsByCategoryId(ByIdPage page);
 
     CommonResult plantToOtherCategory(PlantToOtherCategoryDto dto);
 }

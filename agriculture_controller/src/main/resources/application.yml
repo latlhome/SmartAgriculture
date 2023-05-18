@@ -22,7 +22,7 @@ model:
 web:
   all-images: file:/work/images/
   all-images-mapping: /images/**
-  images: /work/images/
+  images: /images/
   photo: 0963a765614f9123b71bd48b4b9a2a69
   images-mapping: /images
   files: /image/
