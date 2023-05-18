@@ -5,11 +5,14 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
-/**
- * 添加类别
- */
 @Data
-public class AddCategoryDto {
+public class UpdateCategoryDto {
+    /**
+     * 类别ID
+     */
+    @NotBlank
+    @ApiModelProperty("类别ID")
+    private String id;
     /**
      * 类别名称
      */

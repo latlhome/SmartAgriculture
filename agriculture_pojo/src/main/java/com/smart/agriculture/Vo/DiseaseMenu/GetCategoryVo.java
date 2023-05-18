@@ -1,25 +1,23 @@
-package com.smart.agriculture.Dto.DiseaseMenu;
+package com.smart.agriculture.Vo.DiseaseMenu;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-
-/**
- * 添加类别
- */
 @Data
-public class AddCategoryDto {
+public class GetCategoryVo {
+    /**
+     * 类别ID
+     */
+    @ApiModelProperty("类别ID")
+    private String id;
     /**
      * 类别名称
      */
-    @NotBlank
     @ApiModelProperty("类别名称")
     private String categoryName;
     /**
      * 类别对应图片
      */
-    @NotBlank
     @ApiModelProperty("类别对应图片地址 --单张")
     private String menuSamplePicture;
 }

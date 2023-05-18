@@ -14,10 +14,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class DiseaseMenu extends BaseDo {
     /**
-     * 所属类别
+     * 所属类别 0为类别 其他为植物所属类别ID
      */
     @ApiModelProperty("所属类别，0为类别 其他为植物所属类别ID")
-    private String category;
+    private String categoryId;
     /**
      * 菜单类型，分为类别和植物 0 类别 1植物
      */
