@@ -1,6 +1,6 @@
 package com.smart.agriculture.enums.SysUser;
 
-public enum userSex {
+public enum UserSex {
     secret("保密",0),
     men("男",1),
     women("女",2)
@@ -8,7 +8,7 @@ public enum userSex {
     private String type;
     private Integer code;
 
-    userSex(String type, Integer code) {
+    UserSex(String type, Integer code) {
         this.type = type;
         this.code = code;
     }

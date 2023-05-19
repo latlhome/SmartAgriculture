@@ -29,4 +29,21 @@
               c.id = #{id}
         order by c.create_time desc
     </select>
+    <select id="selectArticleAllComment" resultType="java.lang.String">
+        select c.id
+        from comment c
+        where be_commented_code =#{id} and
+              is_del = 0
+    </select>
+    <select id="selectOneCommentById" resultType="com.smart.agriculture.Do.Comment">
+        select *
+        from comment
+        where id = #{id} and
+              is_del =0
+    </select>
+    <select id="selectArticleUpUsernameByCommentId" resultType="java.lang.String">
+        select fa.author_username
+        from comment c left join freedom_article fa on c.be_commented_code = fa.id
+        where c.id = #{id}
+    </select>
 </mapper>

@@ -1,13 +1,13 @@
 package com.smart.agriculture.enums.SysUser;
 
-public enum userType {
+public enum UserType {
     developer("开发者",0),
     ordinaryUser("普通用户",1),
     expert("专家",2);
     private String type;
     private Integer code;
 
-    userType() {
+    UserType() {
     }
 
     public String getType() {
@@ -26,7 +26,7 @@ public enum userType {
         this.code = code;
     }
 
-    userType(String type, Integer code) {
+    UserType(String type, Integer code) {
         this.type = type;
         this.code = code;
     }

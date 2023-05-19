@@ -16,17 +16,22 @@ import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleVo;
 import com.smart.agriculture.Vo.PageVo;
 import com.smart.agriculture.Vo.SysUser.SysUserArticleVo;
 import com.smart.agriculture.common.result.CommonResult;
+import com.smart.agriculture.common.utils.JwtTokenUtil;
+import com.smart.agriculture.enums.SysUser.UserType;
 import com.smart.agriculture.mapper.CommentMapper;
 import com.smart.agriculture.mapper.DiseaseMenuMapper;
 import com.smart.agriculture.mapper.FreedomArticleMapper;
 import com.smart.agriculture.mapper.SysUserMapper;
 import com.smart.agriculture.service.IFreedomArticleService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -44,6 +49,10 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
     private DiseaseMenuMapper diseaseMenuMapper;
     @Resource
     private CommentMapper commentMapper;
+    @Resource
+    private HttpServletRequest httpServletRequest;
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
     @Override
     public CommonResult addFreedomArticle(AddFreedomArticleDto addFreedomArticleDto) {
         SysUser sysUser = sysUserMapper.selectOneByUsername(addFreedomArticleDto.getAuthorUsername());
@@ -100,5 +109,33 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
         vo.setIsCollect(null);
         vo.setLikeNumber(null);
         return CommonResult.success(vo);
+    }
+
+    @Override
+    @Transactional
+    public CommonResult deleteFreedomArticle(String id) {
+        FreedomArticle freedomArticle = baseMapper.selectArticleById(id);
+        if (ObjectUtil.isNull(freedomArticle)) return CommonResult.failed("该帖子不存在");
+        String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
+        SysUser sysUser = sysUserMapper.selectOneByUsername(username);
+        if (!Objects.equals(sysUser.getUserType(), UserType.developer.getCode()) && !Objects.equals(username, freedomArticle.getAuthorUsername()))
+            return CommonResult.failed("您没有权限删除此贴！");
+        int i = baseMapper.deleteById(id);
+        // deleteArticleAllComment(id);
+        if (i>0) return CommonResult.success("删除成功！");
+        else return CommonResult.failed("删除失败！");
+    }
+
+    public void deleteArticleAllComment(String id){
+        try {
+            List<String> d = commentMapper.selectArticleAllComment(id);
+            for (String s : d) {
+                List<String> strings = commentMapper.selectArticleAllComment(s);
+                strings.add(s);
+                commentMapper.deleteBatchIds(strings);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("操作出错，请联系管理员或反馈问题！");
+        }
     }
 }

@@ -23,11 +23,11 @@ public class JwtTokenUtil {
     private String secret;
     @Value("${jwt.expiration}")
     private Long expiration;
-    @Value("${jwt.tokenHeader}")
+    @Value("${jwt.tokenHead}")
     private String tokenHead;
 
     @Value("${jwt.tokenHeader}")
-    private static String tokenHeader ;
+    private String tokenHeader;
     /**
      * 根据负责生成JWT的token
      */
@@ -144,7 +144,9 @@ public class JwtTokenUtil {
      * @return
      */
     public String getUsernameByRequest(HttpServletRequest request) {
-        return getUserNameFromToken(request.getHeader(tokenHead));
+        String header = request.getHeader(tokenHeader);
+        header = header.substring(this.tokenHead.length());
+        return getUserNameFromToken(header);
     }
 
     /**

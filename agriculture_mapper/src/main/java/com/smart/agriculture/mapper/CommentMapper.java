@@ -24,4 +24,10 @@ public interface CommentMapper extends BaseMapper<Comment> {
     List<CommentVo> selectCommentByCode(String id);
 
     List<SecondaryCommentVo> selectCommentById(String id);
+
+    List<String> selectArticleAllComment(String id);
+
+    Comment selectOneCommentById(String id);
+
+    String selectArticleUpUsernameByCommentId(String id);
 }

@@ -31,6 +31,12 @@ public class FreedomArticleController {
         return freedomArticleService.addFreedomArticle(addFreedomArticleDto);
     }
 
+    @DeleteMapping("/deleteFreedomArticle/{id}")
+    @ApiOperation("删除自由帖子")
+    public CommonResult deleteFreedomArticle(@PathVariable("id") String id){
+        return freedomArticleService.deleteFreedomArticle(id);
+    }
+
     @GetMapping("/selectFreedomArticleList")
     @ApiOperation("查看自由帖子列表")
     public CommonResult selectFreedomArticleList(SelectFreedomArticleListDto dto){

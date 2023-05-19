@@ -21,4 +21,6 @@ public interface IFreedomArticleService extends IService<FreedomArticle> {
     CommonResult selectFreedomArticleList(SelectFreedomArticleListDto dto);
 
     CommonResult selectFreedomArticleById(String id);
+
+    CommonResult deleteFreedomArticle(String id);
 }

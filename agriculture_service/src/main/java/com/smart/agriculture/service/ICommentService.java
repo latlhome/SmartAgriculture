@@ -18,4 +18,6 @@ public interface ICommentService extends IService<Comment> {
     CommonResult selectArticleCommentById(ByIdPage page);
 
     CommonResult selectCommentById(String id);
+
+    CommonResult deleteCommentById(String id);
 }
