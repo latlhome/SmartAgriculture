@@ -2,6 +2,9 @@ package com.smart.agriculture.mapper;
 
 import com.smart.agriculture.Do.FreedomArticle;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.smart.agriculture.Dto.FreedomArticle.AddAllArticleIdDto;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface FreedomArticleMapper extends BaseMapper<FreedomArticle> {
 
     FreedomArticle selectArticleById(String id);
+
+    List<String> selectAllArticleId(String username);
+
+    List<AddAllArticleIdDto> selectAddAllArticleId(String followUserUsername);
 }

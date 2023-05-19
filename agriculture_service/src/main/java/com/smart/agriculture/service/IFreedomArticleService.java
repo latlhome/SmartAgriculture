@@ -3,7 +3,12 @@ package com.smart.agriculture.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.smart.agriculture.Do.FreedomArticle;
 import com.smart.agriculture.Dto.FreedomArticle.AddFreedomArticleDto;
+import com.smart.agriculture.Dto.FreedomArticle.QueryOfFollowDto;
 import com.smart.agriculture.Dto.FreedomArticle.SelectFreedomArticleListDto;
+import com.smart.agriculture.Vo.FreedomArticle.ScrollResultVo;
+import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleListVo;
+import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleVo;
+import com.smart.agriculture.Vo.PageVo;
 import com.smart.agriculture.common.result.CommonResult;
 
 /**
@@ -16,11 +21,15 @@ import com.smart.agriculture.common.result.CommonResult;
  */
 public interface IFreedomArticleService extends IService<FreedomArticle> {
 
-    CommonResult addFreedomArticle(AddFreedomArticleDto addFreedomArticleDto);
+    CommonResult<String> addFreedomArticle(AddFreedomArticleDto addFreedomArticleDto);
 
-    CommonResult selectFreedomArticleList(SelectFreedomArticleListDto dto);
+    CommonResult<PageVo<SelectFreedomArticleListVo>> selectFreedomArticleList(SelectFreedomArticleListDto dto);
 
-    CommonResult selectFreedomArticleById(String id);
+    CommonResult<SelectFreedomArticleVo> selectFreedomArticleById(String id);
 
-    CommonResult deleteFreedomArticle(String id);
+    CommonResult<String> deleteFreedomArticle(String id);
+
+    CommonResult<String> likeFreedomArticle(String id);
+
+    CommonResult<ScrollResultVo> queryOfFollow(QueryOfFollowDto dto);
 }

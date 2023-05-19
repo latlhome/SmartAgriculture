@@ -7,6 +7,13 @@ import lombok.Data;
 import java.util.List;
 @Data
 public class SelectFreedomArticleVo {
+
+    /**
+     * id
+     */
+    @ApiModelProperty("id")
+    private String id;
+
     /**
      * 发布者信息
      */
@@ -38,7 +45,7 @@ public class SelectFreedomArticleVo {
      * 点赞数量
      */
     @ApiModelProperty("点赞数量")
-    private Integer likeNumber;
+    private Integer liked;
     // /**
     //  * 评论数量
     //  */
@@ -53,7 +60,7 @@ public class SelectFreedomArticleVo {
      * 是否点赞
      */
     @ApiModelProperty("是否点赞")
-    private Integer isLike;
+    private Boolean isLike;
     /**
      * 是否收藏
      */

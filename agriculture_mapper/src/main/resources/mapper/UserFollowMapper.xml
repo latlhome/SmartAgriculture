@@ -2,4 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smart.agriculture.mapper.UserFollowMapper">
 
+    <select id="selectFollowList" resultType="com.smart.agriculture.Vo.UserFollow.SelectUserFollowListVo">
+        select su.username,su.nickname,su.head_picture
+        from user_follow uf left join sys_user su on uf.follow_user_id = su.username
+        where uf.username = #{username} and
+              uf.is_del = 0 and
+              su.is_del = 0
+    </select>
+    <select id="selectVermicelliList" resultType="java.lang.String">
+        select user_follow.username
+        from user_follow
+        where follow_user_id = #{username} and
+              is_del = 0
+    </select>
 </mapper>

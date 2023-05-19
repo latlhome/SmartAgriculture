@@ -98,7 +98,7 @@ public class IRedisServiceImpl implements IRedisService {
 
     @Override
     public List<String> getList(String username){
-        String str1 = stringRedisTemplate.opsForValue().get("username:"+username);
+        String str1 = stringRedisTemplate.opsForValue().get("USER:"+username);
         return JSONObject.parseArray(str1,String.class);
     }
 
@@ -122,8 +122,8 @@ public class IRedisServiceImpl implements IRedisService {
      * @param key 键
      */
     @Override
-    public void remove(String key) {
-        stringRedisTemplate.delete(key);
+    public Boolean remove(String key) {
+        return stringRedisTemplate.delete(key);
     }
 
     /**

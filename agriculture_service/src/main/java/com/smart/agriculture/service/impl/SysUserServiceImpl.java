@@ -1,5 +1,6 @@
 package com.smart.agriculture.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -7,26 +8,29 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.smart.agriculture.Bo.AdminAuthData;
 import com.smart.agriculture.Do.SysRole;
 import com.smart.agriculture.Do.SysUser;
+import com.smart.agriculture.Dto.SysUser.ChangeInformationDto;
 import com.smart.agriculture.Dto.SysUser.SysUserRegisterDto;
 import com.smart.agriculture.common.result.CommonResult;
+import com.smart.agriculture.common.result.ResultCode;
 import com.smart.agriculture.common.utils.JwtTokenUtil;
 import com.smart.agriculture.mapper.SysRoleMapper;
 import com.smart.agriculture.mapper.SysUserMapper;
+import com.smart.agriculture.security.config.CustomAuthorizeException;
 import com.smart.agriculture.security.pojo.security.RedisUserInfo;
 import com.smart.agriculture.security.service.IRedisService;
 import com.smart.agriculture.service.ISysPermissionService;
 import com.smart.agriculture.service.ISysUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,12 +51,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
+    @Value("${jwt.tokenHeader}")
+    private String tokenHeader;
 
     @Value("${jwt.expiration}")
     private Long redisTime;
-
-    @Resource
-    private UserDetailsService userDetailsService;
 
     @Resource
     private ISysPermissionService permissionService;
@@ -68,6 +71,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysRoleMapper roleMapper;
     @Resource
     private IRedisService redisService;
+    @Resource
+    private HttpServletRequest httpServletRequest;
 
     @Override
     public RedisUserInfo login(String username, String password) {
@@ -75,13 +80,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         RedisUserInfo redisUserInfo = new RedisUserInfo();
         SysUser sysUser = baseMapper.selectOneByUsername(username);
         try {
-            // UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (!passwordEncoder.matches(password, sysUser.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
             }
-            // UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-            //         userDetails, null, userDetails.getAuthorities());
-            // SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             token = jwtUtils.generateToken(sysUser.getUsername());
 
             // 获取用户所携带的按钮信息  0代表权限数据 1代表返回权限个数
@@ -101,7 +102,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public CommonResult register(SysUserRegisterDto registerDto) {
+    public CommonResult<String> register(SysUserRegisterDto registerDto) {
         if (StringUtils.isEmpty(registerDto.getPassword())) {
             registerDto.setPassword("666666");  //默认注册密码
         }
@@ -109,7 +110,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .eq(SysUser::getUsername, registerDto.getUsername()));
 
         if (ObjectUtil.isNull(userInfo)) {
-            SysRole sysRole = null;
+            SysRole sysRole;
             SysUser sysUser = new SysUser();
             BeanUtils.copyProperties(registerDto, sysUser);
             sysRole = roleMapper.selectOne(new QueryWrapper<SysRole>().lambda().eq(SysRole::getTypeNumber,1));//获取普通用户权限
@@ -131,5 +132,41 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
         }
         return CommonResult.failed("注册失败，该账号已存在");
+    }
+
+    @Override
+    public CommonResult<String> logout() {
+        String username = jwtUtils.getUsernameByRequest(httpServletRequest);
+        if(username == null) {
+            throw  new CustomAuthorizeException(ResultCode.NO_PERMITION);
+        }
+        Boolean remove = redisService.remove(CACHE_PUNCH_REGION + username);
+        if (remove) return CommonResult.success("退出成功");
+        return CommonResult.failed("未知错误!");
+    }
+
+    @Override
+    public CommonResult<String> changePasswd(String oldPassword,String newPassword) {
+        String username = jwtUtils.getUsernameByRequest(httpServletRequest);
+        if (StringUtils.isBlank(username)) return CommonResult.failed("未登录！");
+        SysUser sysUser = userMapper.selectOneByUsername(username);
+        boolean matches = passwordEncoder.matches(oldPassword, sysUser.getPassword());
+        if (!matches) return  CommonResult.failed("原始密码错误！");
+        SysUser flag = new SysUser();
+        flag.setId(sysUser.getId());
+        flag.setPassword(passwordEncoder.encode(newPassword));
+        int i = userMapper.updateById(flag);
+        if (i>0) return CommonResult.success("修改成功！");
+        return CommonResult.failed("修改未知失败！");
+    }
+
+    @Override
+    public CommonResult<String> changeInformation(ChangeInformationDto dto) {
+        String username = jwtUtils.getUsernameByRequest(httpServletRequest);
+        SysUser sysUser = new SysUser();
+        BeanUtil.copyProperties(dto,sysUser);
+        int update = baseMapper.update(sysUser, new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, username));
+        if (update>0) return CommonResult.success("修改成功！");
+        return CommonResult.failed("修改未知错误！");
     }
 }

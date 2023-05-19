@@ -72,7 +72,7 @@ public interface IRedisService {
      *
      * @param key 键
      */
-    void remove(String key);
+    Boolean remove(String key);
 
     /**
      * 自增操作

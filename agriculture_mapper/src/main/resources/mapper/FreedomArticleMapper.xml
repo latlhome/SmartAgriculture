@@ -8,4 +8,17 @@
         where id = #{id} and
               is_del = 0
     </select>
+    <select id="selectAllArticleId" resultType="java.lang.String">
+        select fa.id
+        from freedom_article fa
+        where author_username = #{username} and
+              is_del = 0
+    </select>
+    <select id="selectAddAllArticleId"
+            resultType="com.smart.agriculture.Dto.FreedomArticle.AddAllArticleIdDto">
+        select fa.id , fa.create_time
+        from freedom_article fa
+        where author_username = #{username} and
+            is_del = 0
+    </select>
 </mapper>

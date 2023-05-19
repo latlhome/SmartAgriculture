@@ -1,5 +1,6 @@
 package com.smart.agriculture.Do;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,6 +32,9 @@ public class UserFollow extends BaseDo {
      */
     @ApiModelProperty("被关注用户名")
     private String followUserId;
+
+    @TableField(select = false)
+    private Boolean isDel;
 
 
 }

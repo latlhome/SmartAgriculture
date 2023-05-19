@@ -2,6 +2,9 @@ package com.smart.agriculture.mapper;
 
 import com.smart.agriculture.Do.UserFollow;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.smart.agriculture.Vo.UserFollow.SelectUserFollowListVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface UserFollowMapper extends BaseMapper<UserFollow> {
 
+    List<SelectUserFollowListVo> selectFollowList(String username);
+
+    List<String> selectVermicelliList(String username);
 }
