@@ -9,6 +9,12 @@ import java.util.List;
 
 @Data
 public class SelectFreedomArticleListVo {
+
+    /**
+     * 帖子id
+     */
+    @ApiModelProperty("帖子id")
+    private String id;
     /**
      * 对应农作物编号
      */

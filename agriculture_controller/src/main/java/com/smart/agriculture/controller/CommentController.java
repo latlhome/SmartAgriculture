@@ -7,6 +7,7 @@ import com.smart.agriculture.service.ICommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,8 +29,15 @@ public class CommentController {
     private ICommentService commentService;
     @GetMapping("/selectCommentById")
     @ApiOperation("查看自由帖子回复详细")
-    public CommonResult selectCommentById(ByIdPage page){
-        return commentService.selectCommentById(page);
+    public CommonResult selectArticleCommentById(ByIdPage page){
+        return commentService.selectArticleCommentById(page);
     }
+
+    @GetMapping("/selectComment/{id}")
+    @ApiOperation("查看回复下的回复")
+    public CommonResult selectCommentById(@PathVariable("id") String id){
+        return commentService.selectCommentById(id);
+    }
+
 }
 

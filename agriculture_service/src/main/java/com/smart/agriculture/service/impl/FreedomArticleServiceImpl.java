@@ -13,6 +13,7 @@ import com.smart.agriculture.Dto.FreedomArticle.AddFreedomArticleDto;
 import com.smart.agriculture.Dto.FreedomArticle.SelectFreedomArticleListDto;
 import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleListVo;
 import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleVo;
+import com.smart.agriculture.Vo.PageVo;
 import com.smart.agriculture.Vo.SysUser.SysUserArticleVo;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.mapper.CommentMapper;
@@ -58,6 +59,7 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
 
     @Override
     public CommonResult selectFreedomArticleList(SelectFreedomArticleListDto dto) {
+        PageVo<SelectFreedomArticleListVo> pagevo = new PageVo<>();
         List<SelectFreedomArticleListVo> vo = new ArrayList<>();
         LambdaQueryWrapper<FreedomArticle> lambda = new QueryWrapper<FreedomArticle>().lambda();
         if (ObjectUtil.isNotNull(dto.getPlantId())) {
@@ -73,7 +75,12 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
             flag.setDrawing(Arrays.asList(record.getDrawing().split("#")));
             vo.add(flag);
         }
-        return CommonResult.success(vo);
+        pagevo.setData(vo);
+        pagevo.setTotalSize(freedomArticleIPage.getTotal());
+        pagevo.setPageSize(freedomArticleIPage.getSize());
+        pagevo.setPageNum(freedomArticleIPage.getCurrent());
+        pagevo.setTotalPages(freedomArticleIPage.getPages());
+        return CommonResult.success(pagevo);
     }
 
     @Override

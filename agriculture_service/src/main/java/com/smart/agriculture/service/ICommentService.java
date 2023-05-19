@@ -15,5 +15,7 @@ import com.smart.agriculture.common.result.CommonResult;
  */
 public interface ICommentService extends IService<Comment> {
 
-    CommonResult selectCommentById(ByIdPage page);
+    CommonResult selectArticleCommentById(ByIdPage page);
+
+    CommonResult selectCommentById(String id);
 }

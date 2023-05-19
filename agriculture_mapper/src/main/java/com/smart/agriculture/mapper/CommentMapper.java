@@ -1,7 +1,9 @@
 package com.smart.agriculture.mapper;
 
-import com.smart.agriculture.Do.Comment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.smart.agriculture.Do.Comment;
+import com.smart.agriculture.Vo.Comment.CommentVo;
+import com.smart.agriculture.Vo.Comment.SecondaryCommentVo;
 
 import java.util.List;
 
@@ -14,6 +16,12 @@ import java.util.List;
  * @since 2023-05-16
  */
 public interface CommentMapper extends BaseMapper<Comment> {
+    /**
+     * 获取文章下评论
+     * @param id
+     * @return
+     */
+    List<CommentVo> selectCommentByCode(String id);
 
-    List<Comment> selectCommentByCode(String id);
+    List<SecondaryCommentVo> selectCommentById(String id);
 }

@@ -2,10 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smart.agriculture.mapper.CommentMapper">
 
-    <select id="selectCommentByCode" resultType="com.smart.agriculture.Do.Comment">
-        select id ,release_username ,be_commented_code , content ,create_time
-        from comment
+<!--    <resultMap id="fzAllInfoDto" type="com.smart.agriculture.Vo.Comment.CommentVo" autoMapping="true">-->
+<!--        <result property="commentNumber" column="commentNumber"></result>-->
+<!--        <collection property="commentNumber"-->
+<!--                    ofType="java.lang.Integer"-->
+<!--                    select="com.smart.agriculture.mapper.CommentMapper.selectCommentByCode"-->
+<!--                    column="commentNumber">-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+    <select id="selectCommentByCode" resultType="com.smart.agriculture.Vo.Comment.CommentVo">
+        select c.id,release_username as commentUserUsername , su.head_picture as commentUserPicture ,
+               content as commentContent ,c.create_time as createTime, su.nickname commentUserNickname,
+               (select count(*) from comment where be_commented_code = c.id and c.is_del = 0) commentNumber
+        from comment  c left join sys_user su on c.release_username = su.username
         where be_commented_code = #{id} and
-              is_del = 0
+              c.is_del = 0 and
+              su.is_del = 0
+        order by c.create_time desc
+    </select>
+    <select id="selectCommentById" resultType="com.smart.agriculture.Vo.Comment.SecondaryCommentVo">
+        select c.release_username as commentUserUsername,c.content as commentContent ,su.head_picture as commentUserPicture, su.nickname as commentUserNickname
+        from comment as c left join sys_user su on c.release_username = su.username
+        where su.is_del = 0 and
+              c.is_del = 0 and
+              c.id = #{id}
+        order by c.create_time desc
     </select>
 </mapper>
