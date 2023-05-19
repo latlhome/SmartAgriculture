@@ -34,6 +34,11 @@ public class FreedomArticle extends BaseDo {
     @ApiModelProperty("内容")
     private String content;
     /**
+     * 点赞数量
+     */
+    @ApiModelProperty("点赞数量")
+    private Long liked;
+    /**
      * 配图 多个图片用#间隔
      */
     @ApiModelProperty("配图 多个图片用#间隔")

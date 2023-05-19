@@ -27,6 +27,12 @@ public class SelectFreedomArticleListVo {
     private String title;
 
     /**
+     * 点赞数量
+     */
+    @ApiModelProperty("点赞数量")
+    private Long liked;
+
+    /**
      * 配图
      */
     @ApiModelProperty("配图 ")
