@@ -16,4 +16,6 @@ import java.util.List;
 public interface ISysPermissionService extends IService<SysPermission> {
 
     List<String> getPermission(String number, String s);
+
+    void clearToken(boolean b, Long id);
 }

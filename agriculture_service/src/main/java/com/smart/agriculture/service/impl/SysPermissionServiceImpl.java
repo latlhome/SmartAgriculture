@@ -12,6 +12,7 @@ import com.smart.agriculture.enums.SysPremission.PermissionType;
 import com.smart.agriculture.mapper.SysPermissionMapper;
 import com.smart.agriculture.mapper.SysRoleMapper;
 import com.smart.agriculture.mapper.SysUserMapper;
+import com.smart.agriculture.security.service.impl.IRedisServiceImpl;
 import com.smart.agriculture.service.ISysPermissionService;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements ISysPermissionService {
+    @Resource
+    private IRedisServiceImpl redisService;
     @Resource
     private SysUserMapper sysUserMapper;
     @Resource
@@ -62,11 +65,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                 }
                 AdminAuthData roleAuth = JSONUtil.toBean(sysUserRole.getAuthData(), AdminAuthData.class);
                 if (roleAuth.getAuthList().size()!=0) {
-                    roleAuth.getAuthList().stream().forEach(
-                            roleAuth1->{
-                                result1.add(roleAuth1); //整合角色中的权限id值
-                            }
-                    );
+                    //整合角色中的权限id值
+                    result1.addAll(roleAuth.getAuthList());
                 }
             }
             permissionData.setAuthList(result1); //取得权限值
@@ -93,5 +93,19 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
             return buttonCount;
         }
         return result;
+    }
+
+    @Override
+    public void clearToken(boolean b, Long id) {
+        // 判断是否马上登出
+        SysUser user = sysUserMapper.selectOne(new QueryWrapper<SysUser>()
+                .lambda()
+                .select(SysUser::getUsername)
+                .eq(SysUser::getId, id));
+        if (b && user != null) {
+            redisService.remove(user.getUsername());
+        } else if (!b && user != null) {
+            redisService.expire(user.getUsername(), 60 * 60);
+        }
     }
 }
