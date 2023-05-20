@@ -16,6 +16,12 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class PlantingLog extends BaseDo{
+
+    /**
+     * 作者Username
+     */
+    @ApiModelProperty("作者Username")
+    private String AuthorUsername;
     /**
      * 标题
      */

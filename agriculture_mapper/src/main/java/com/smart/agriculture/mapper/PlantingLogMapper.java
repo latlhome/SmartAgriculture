@@ -12,5 +12,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2023-05-16
  */
 public interface PlantingLogMapper extends BaseMapper<PlantingLog> {
-
+    /**
+     * 根据ID获取种植日志
+     * @param id 日志ID
+     * @return 日志
+     */
+    PlantingLog selectPlantingLogById(Long id);
 }
