@@ -12,5 +12,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2023-05-16
  */
 public interface AskQuestionsArticleMapper extends BaseMapper<AskQuestionsArticle> {
-
+    /**
+     * 根据问答ID获取问答信息
+     * @param id 问答ID
+     * @return 问答具体信息
+     */
+    AskQuestionsArticle selectOneById(Long id);
 }

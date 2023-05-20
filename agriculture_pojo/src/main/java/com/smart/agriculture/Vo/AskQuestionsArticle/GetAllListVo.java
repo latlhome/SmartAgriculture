@@ -1,27 +1,18 @@
-package com.smart.agriculture.Do;
+package com.smart.agriculture.Vo.AskQuestionsArticle;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
-/**
- * 问答文章
- */
+import java.util.Date;
+import java.util.List;
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
-public class AskQuestionsArticle extends BaseDo {
-
+public class GetAllListVo {
     /**
-     * 作者ID
+     * id
      */
-    @ApiModelProperty("作者Username")
-    private String authorUsername;
+    @ApiModelProperty("id")
+    private Long id;
     /**
      * 对应农作物编号
      */
@@ -32,21 +23,22 @@ public class AskQuestionsArticle extends BaseDo {
      */
     @ApiModelProperty("标题")
     private String title;
-    /**
-     * 内容
-     */
-    @ApiModelProperty("内容")
-    private String content;
+
     /**
      * 配图 多个图片用#间隔
      */
     @ApiModelProperty("配图 多个图片用#间隔")
-    private String drawing;
-
+    private List<String> drawing;
 
     /**
      * 问题状态 -1等待回答 0待处理 1已解决
      */
     @ApiModelProperty("问题状态 -1等待回答 0待处理 1已解决")
     private Integer state;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date createTime;
 }

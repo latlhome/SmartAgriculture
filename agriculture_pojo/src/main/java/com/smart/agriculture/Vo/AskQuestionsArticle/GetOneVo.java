@@ -1,27 +1,18 @@
-package com.smart.agriculture.Do;
+package com.smart.agriculture.Vo.AskQuestionsArticle;
 
+import com.smart.agriculture.Vo.SysUser.SysUserArticleVo;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
-/**
- * 问答文章
- */
+import java.util.List;
+
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
-public class AskQuestionsArticle extends BaseDo {
-
+public class GetOneVo {
     /**
-     * 作者ID
+     * 发布者信息
      */
-    @ApiModelProperty("作者Username")
-    private String authorUsername;
+    @ApiModelProperty("发布者信息")
+    private SysUserArticleVo userArticleVo;
     /**
      * 对应农作物编号
      */
@@ -41,7 +32,7 @@ public class AskQuestionsArticle extends BaseDo {
      * 配图 多个图片用#间隔
      */
     @ApiModelProperty("配图 多个图片用#间隔")
-    private String drawing;
+    private List<String> drawing;
 
 
     /**
