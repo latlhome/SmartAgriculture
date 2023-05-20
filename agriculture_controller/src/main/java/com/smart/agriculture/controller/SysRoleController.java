@@ -7,6 +7,7 @@ import com.smart.agriculture.Dto.SysRole.SysRoleAddDto;
 import com.smart.agriculture.Dto.SysRole.SysRoleUpdateDto;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.service.ISysRoleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sysRole")
+@Api(tags = "系统 角色管理接口")
 public class SysRoleController {
     @Resource
     private ISysRoleService roleService;
@@ -33,7 +35,7 @@ public class SysRoleController {
         return roleService.addRole(sysRoleAddDto);
     }
 
-    @ApiOperation("增加用户角色")
+    @ApiOperation("给用户添加角色")
     @PutMapping("/addUserRole")
     public CommonResult<String> addUserRole(@RequestBody SysAddUserRoleDto addUserRoleDto) {
         return roleService.addUserRole(addUserRoleDto);

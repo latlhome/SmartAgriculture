@@ -1,4 +1,4 @@
-package com.smart.agriculture.Vo;
+package com.smart.agriculture.Vo.SysPermission;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -7,8 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- *
+ * 查询全部权限菜单
  */
 @Data
 public class SysTreePermissionVo {
@@ -45,8 +44,6 @@ public class SysTreePermissionVo {
     private String icon;
 
 
-
-
     /**
      * 组件路由
      */
@@ -73,7 +70,6 @@ public class SysTreePermissionVo {
      * 子权限
      */
     private List<SysTreePermissionVo> children;
-
 
 
 }
