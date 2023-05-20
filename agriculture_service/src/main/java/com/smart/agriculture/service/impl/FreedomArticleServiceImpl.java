@@ -62,7 +62,7 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
     @Override
     public CommonResult<String> addFreedomArticle(AddFreedomArticleDto addFreedomArticleDto) {
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
-        SysUser sysUser = sysUserMapper.selectOneByUsername(addFreedomArticleDto.getAuthorUsername());
+        SysUser sysUser = sysUserMapper.selectOneByUsername(username);
         if (ObjectUtil.isNull(sysUser)) return CommonResult.failed("发布用户不存在！");
         Integer integer = diseaseMenuMapper.selectPlantById(addFreedomArticleDto.getPlantId());
         if (integer == 0) return CommonResult.failed("对应农作物不存在！");

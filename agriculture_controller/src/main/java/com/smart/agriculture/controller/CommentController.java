@@ -2,6 +2,9 @@ package com.smart.agriculture.controller;
 
 
 import com.smart.agriculture.Dto.ByIdPage;
+import com.smart.agriculture.Vo.Comment.CommentVo;
+import com.smart.agriculture.Vo.Comment.SecondaryCommentVo;
+import com.smart.agriculture.Vo.PageVo;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.service.ICommentService;
 import io.swagger.annotations.Api;
@@ -9,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -26,19 +30,19 @@ public class CommentController {
     private ICommentService commentService;
     @GetMapping("/selectCommentById")
     @ApiOperation("查看自由帖子回复详细")
-    public CommonResult selectArticleCommentById(ByIdPage page){
+    public CommonResult<PageVo<CommentVo>> selectArticleCommentById(ByIdPage page){
         return commentService.selectArticleCommentById(page);
     }
 
     @GetMapping("/selectComment/{id}")
     @ApiOperation("查看回复下的回复")
-    public CommonResult selectCommentById(@PathVariable("id") String id){
+    public CommonResult<List<SecondaryCommentVo>> selectCommentById(@PathVariable("id") String id){
         return commentService.selectCommentById(id);
     }
 
     @DeleteMapping("/deleteComment/{id}")
     @ApiOperation("删除回复")
-    public CommonResult deleteComment(@PathVariable("id") String id){
+    public CommonResult<String> deleteComment(@PathVariable("id") String id){
         return commentService.deleteCommentById(id);
     }
 

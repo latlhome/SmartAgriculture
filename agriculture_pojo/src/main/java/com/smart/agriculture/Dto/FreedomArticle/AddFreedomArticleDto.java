@@ -6,11 +6,6 @@ import lombok.Data;
 @Data
 public class AddFreedomArticleDto {
     /**
-     * 作者Username
-     */
-    @ApiModelProperty("作者Username")
-    private String authorUsername;
-    /**
      * 对应农作物编号
      */
     @ApiModelProperty("对应农作物编号")

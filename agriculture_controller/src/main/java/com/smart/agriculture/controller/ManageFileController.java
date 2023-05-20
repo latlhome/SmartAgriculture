@@ -20,10 +20,15 @@ public class ManageFileController {
     @Resource
     private IImagesService imagesService;
 
-    @PostMapping("/upload")
+    @PostMapping("/uploadFile")
     @ApiOperation("上传图片")
-    public CommonResult upload(MultipartFile file){
+    public CommonResult<String> upload(MultipartFile file){
         return CommonResult.success(imagesService.fileUpload(file));
+    }
+    @PostMapping("/deleteFile")
+    @ApiOperation("删除图片")
+    public CommonResult<Boolean> deleteFile(String path){
+        return CommonResult.success(imagesService.deleteFile(path));
     }
 
 }

@@ -8,7 +8,7 @@
         where id = #{id} and
               is_del = 0
     </select>
-    <select id="selectAllArticleId" resultType="java.lang.String">
+    <select id="selectOneAllArticleIdByUsername" resultType="java.lang.String">
         select fa.id
         from freedom_article fa
         where author_username = #{username} and

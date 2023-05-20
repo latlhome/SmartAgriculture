@@ -140,23 +140,15 @@ public class FileUploadUtil {
     public static Boolean delete(String filePath) {
         String absolutePath = new File(filePath).getAbsolutePath();
         File file = new File(absolutePath);
-
         if (file.exists()) {
-
-            file.delete();
-
-            System.out.println("===========删除成功=================");
-
-            return true;
-
+            if (file.delete()){
+                System.out.println("===========删除成功=================");
+                return true;
+            }
         } else {
-
             System.out.println("===============删除失败==============");
-
-            return false;
-
         }
-
+        return false;
     }
 
 }

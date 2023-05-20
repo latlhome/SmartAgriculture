@@ -39,7 +39,7 @@ public class PlantDiseaseServiceImpl extends ServiceImpl<PlantDiseaseMapper, Pla
     private DiseaseMenuMapper diseaseMenuMapper;
 
     @Override
-    public CommonResult addPlantDisease(AddPlantDiseaseDto dto) {
+    public CommonResult<String> addPlantDisease(AddPlantDiseaseDto dto) {
         //判断传输过来的植物种类是否有问题
         Integer integer = diseaseMenuMapper.selectPlantById(dto.getPlantId());
         if (integer == 0)   return CommonResult.failed("该植物种类不存在");
@@ -58,7 +58,7 @@ public class PlantDiseaseServiceImpl extends ServiceImpl<PlantDiseaseMapper, Pla
     }
 
     @Override
-    public CommonResult updatePlantDisease(UpdatePlantDiseaseDto dto) {
+    public CommonResult<String> updatePlantDisease(UpdatePlantDiseaseDto dto) {
         //判断传输过来的植物种类是否有问题
         Integer count = diseaseMenuMapper.selectPlantById(dto.getPlantId());
         if (count == 0)   return CommonResult.failed("该植物种类不存在");
@@ -72,7 +72,7 @@ public class PlantDiseaseServiceImpl extends ServiceImpl<PlantDiseaseMapper, Pla
     }
 
     @Override
-    public CommonResult deletePlantDisease(String id) {
+    public CommonResult<String> deletePlantDisease(String id) {
         PlantDisease plantDisease = baseMapper.selectOne(new QueryWrapper<PlantDisease>().lambda().eq(PlantDisease::getId, id));
         if (ObjectUtil.isNull(plantDisease)) return CommonResult.failed("该病害不存在！");
         int i = baseMapper.deleteById(id);
@@ -81,7 +81,7 @@ public class PlantDiseaseServiceImpl extends ServiceImpl<PlantDiseaseMapper, Pla
     }
 
     @Override
-    public CommonResult getPlantDiseasesById(ByIdPage page) {
+    public CommonResult<List<GetPlantDiseaseByIdVo>> getPlantDiseasesById(ByIdPage page) {
         List<GetPlantDiseaseByIdVo> vo = new ArrayList<>();
         Integer integer = diseaseMenuMapper.selectPlantById(page.getId());
         if (integer == 0)   return CommonResult.failed("该植物种类不存在");
@@ -96,7 +96,7 @@ public class PlantDiseaseServiceImpl extends ServiceImpl<PlantDiseaseMapper, Pla
     }
 
     @Override
-    public CommonResult selectPlantDiseaseById(String id) {
+    public CommonResult<SelectPlantDiseaseVo> selectPlantDiseaseById(String id) {
         PlantDisease plantDisease = baseMapper.selectOne(new QueryWrapper<PlantDisease>().lambda().eq(PlantDisease::getId, id));
         if (ObjectUtil.isNull(plantDisease)) return CommonResult.failed("相关病害不存在");
         SelectPlantDiseaseVo vo = new SelectPlantDiseaseVo();

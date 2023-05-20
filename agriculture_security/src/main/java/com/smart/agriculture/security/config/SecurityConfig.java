@@ -8,9 +8,6 @@ import com.smart.agriculture.security.pojo.security.RedisUserInfo;
 import com.smart.agriculture.security.pojo.security.SysUser;
 import com.smart.agriculture.security.service.IRedisService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,7 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,19 +34,13 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Value("${jwt.tokenHeader}")
-    private String tokenHeader;
-    @Autowired
-    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
-    @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-    @Autowired
-    private IRedisService iRedisService;
     @Resource
-    private HttpServletRequest httpServletRequest;
-    @Autowired
-    private ApplicationContext applicationContext;
+    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+    @Resource
+    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    @Resource
+    private IRedisService iRedisService;
+
 
 
     @Override

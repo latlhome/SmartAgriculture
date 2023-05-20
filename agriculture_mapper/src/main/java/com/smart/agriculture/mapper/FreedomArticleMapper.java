@@ -15,10 +15,26 @@ import java.util.List;
  * @since 2023-05-16
  */
 public interface FreedomArticleMapper extends BaseMapper<FreedomArticle> {
-
+    /**
+     * 查找文章根据文章ID
+     * @param id 文章ID
+     * @return 文章
+     */
     FreedomArticle selectArticleById(String id);
 
-    List<String> selectAllArticleId(String username);
+    /**
+     * 查询某人所有的文章ID
+     * @param username 某人的Username
+     * @return 某人所有的文章ID
+     */
+
+    List<String> selectOneAllArticleIdByUsername(String username);
+
+    /**
+     * 获取Username下所有的文章 ID 和 创建时间
+     * @param followUserUsername 作者Username
+     * @return Username下所有的文章 ID 和 创建时间
+     */
 
     List<AddAllArticleIdDto> selectAddAllArticleId(String followUserUsername);
 }

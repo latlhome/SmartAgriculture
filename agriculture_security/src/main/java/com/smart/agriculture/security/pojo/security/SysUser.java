@@ -40,7 +40,7 @@ public class SysUser implements Serializable {
 
     private String headPicture;
     /**
-     * 身份类型 0管理员 1普通用户 2专家
+     * 身份类型 0：管理员 1：普通用户 2：专家
      */
     @ApiModelProperty("用户类型 0管理员 1普通用户 2专家")
     private Integer userType;

@@ -41,8 +41,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    public CommonResult selectArticleCommentById(ByIdPage page) {
-        PageVo pageVo= new PageVo();
+    public CommonResult<PageVo<CommentVo>> selectArticleCommentById(ByIdPage page) {
+        PageVo<CommentVo> pageVo= new PageVo<>();
         List<CommentVo> commentVos = baseMapper.selectCommentByCode(page.getId());
         PagedListHolder<CommentVo> pagedListHolder = new PagedListHolder<>(commentVos);
         pagedListHolder.setPageSize(Math.toIntExact(page.getPageSize()));
@@ -56,13 +56,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public CommonResult selectCommentById(String id) {
+    public CommonResult<List<SecondaryCommentVo>> selectCommentById(String id) {
         List<SecondaryCommentVo> comments = baseMapper.selectCommentById(id);
         return CommonResult.success(comments);
     }
 
     @Override
-    public CommonResult deleteCommentById(String id) {
+    public CommonResult<String> deleteCommentById(String id) {
         Comment comment = baseMapper.selectOneCommentById(id);
         if (ObjectUtil.isNull(comment)) return CommonResult.failed("该评论不存在");
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);

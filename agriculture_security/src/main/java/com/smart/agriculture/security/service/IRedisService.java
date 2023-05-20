@@ -78,7 +78,7 @@ public interface IRedisService {
      * 自增操作
      * @param key 键
      * @param delta 自增步长
-     * @return
+     * @return Long
      */
     Long increment(String key, long delta);
 

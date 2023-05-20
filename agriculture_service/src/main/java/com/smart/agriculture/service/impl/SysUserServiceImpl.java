@@ -45,7 +45,7 @@ import java.util.List;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
-    private static final String CACHE_PUNCH_REGION = "USER";
+    private static final String CACHE_PUNCH_REGION = "USER:";
     private static final Logger LOGGER = LoggerFactory.getLogger(SysUser.class);
 
 

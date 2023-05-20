@@ -6,11 +6,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.smart.agriculture.security.pojo.security.RedisUserInfo;
 import com.smart.agriculture.security.service.IRedisService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class IRedisServiceImpl implements IRedisService {
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Value("${jwt.expiration}")
@@ -34,7 +34,7 @@ public class IRedisServiceImpl implements IRedisService {
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
 
-    @Autowired
+    @Resource
     private HttpServletRequest httpServletRequest;
     /**
      * 存储数据
@@ -113,7 +113,7 @@ public class IRedisServiceImpl implements IRedisService {
      */
     @Override
     public boolean expire(String key, long expire) {
-        return stringRedisTemplate.expire(key, expire, TimeUnit.SECONDS);
+        return Boolean.TRUE.equals(stringRedisTemplate.expire(key, expire, TimeUnit.SECONDS));
     }
 
     /**
@@ -131,7 +131,7 @@ public class IRedisServiceImpl implements IRedisService {
      *
      * @param key   键
      * @param delta 自增步长
-     * @return
+     * @return Long
      */
     @Override
     public Long increment(String key, long delta) {

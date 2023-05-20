@@ -15,8 +15,18 @@ import java.util.List;
  * @since 2023-05-19
  */
 public interface UserFollowMapper extends BaseMapper<UserFollow> {
-
+    /**
+     * 查询用户关注列表
+     * @param username 用户Username
+     * @return 关注的用户(username.头像.昵称)List
+     */
     List<SelectUserFollowListVo> selectFollowList(String username);
+
+    /**
+     *  查询用户关注所有Username
+     * @param username 用户Username
+     * @return 关注的UsernameList
+     */
 
     List<String> selectVermicelliList(String username);
 }

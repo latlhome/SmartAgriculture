@@ -53,17 +53,17 @@ public class UserFollowServiceImpl extends ServiceImpl<UserFollowMapper, UserFol
             //入库
             int insert = baseMapper.insert(follow);
             if (insert >0) {
-                // 把关注用户的id，放入redis的set集合 SADD userId followerUserId
+                // 把关注用户的id，放入redis的set集合 sadd userId followerUserId
                 stringRedisTemplate.opsForSet().add(key, isFollow.getFollowUserUsername());
                 //关注列表里面整点活
                 String feedKey = FEED_KEY + username;
-                List<AddAllArticleIdDto> lists = freedomArticleMapper.selectAddAllArticleId(isFollow.getFollowUserUsername());
+                List<AddAllArticleIdDto> lists = freedomArticleMapper
+                        .selectAddAllArticleId(isFollow.getFollowUserUsername());
                 for (AddAllArticleIdDto one : lists) {
                     stringRedisTemplate.opsForZSet().add(feedKey,one.getId(), one.getCreateTime().getTime());
                 }
                 return CommonResult.success("关注成功!");
             }
-            return CommonResult.success("操作有误！");
         } else {
             int isSuccess = baseMapper.delete(new QueryWrapper<UserFollow>().lambda()
                     .eq(UserFollow::getUsername, username)
@@ -73,14 +73,15 @@ public class UserFollowServiceImpl extends ServiceImpl<UserFollowMapper, UserFol
                 stringRedisTemplate.opsForSet().remove(key, isFollow.getFollowUserUsername());
                 //关注推文移除
                 String feedKey = FEED_KEY + username;
-                List<String> ids =freedomArticleMapper.selectAllArticleId(isFollow.getFollowUserUsername());
+                List<String> ids =freedomArticleMapper
+                        .selectOneAllArticleIdByUsername(isFollow.getFollowUserUsername());
                 for (String id : ids) {
                     stringRedisTemplate.opsForZSet().remove(feedKey,id);
                 }
                 return CommonResult.success("取关成功！");
             }
-            return CommonResult.success("操作有误！");
         }
+        return CommonResult.success("操作有误！");
     }
 
     /**
@@ -91,7 +92,8 @@ public class UserFollowServiceImpl extends ServiceImpl<UserFollowMapper, UserFol
     @Override
     public CommonResult<Boolean> isFollow(Long followUserId) {
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
-        Integer integer = baseMapper.selectCount(new QueryWrapper<UserFollow>().lambda().eq(UserFollow::getFollowUserId, followUserId)
+        Integer integer = baseMapper.selectCount(new QueryWrapper<UserFollow>().lambda()
+                .eq(UserFollow::getFollowUserId, followUserId)
                 .eq(UserFollow::getUsername, username));
         return CommonResult.success(integer > 0);
     }

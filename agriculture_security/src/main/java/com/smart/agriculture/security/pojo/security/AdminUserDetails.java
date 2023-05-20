@@ -11,15 +11,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created with IntelliJ IDEA.
- *
- * @Author: jiangzhuohang
- * @Date: 2021/07/01/16:21
- * @Description:
+ * Spring security User工具
  */
 public class AdminUserDetails implements UserDetails {
-    private SysUser sysUser;
-    private List<SysPermission> permissionList;
+    private final SysUser sysUser;
+    private final List<SysPermission> permissionList;
 
     public AdminUserDetails(SysUser sysUser, List<SysPermission> permissionList) {
         this.sysUser = sysUser;
@@ -43,10 +39,6 @@ public class AdminUserDetails implements UserDetails {
     @Override
     public String getUsername() {
         return sysUser.getUsername();
-    }
-
-    public String getUserRealName(){
-        return sysUser.getName();
     }
 
     @Override

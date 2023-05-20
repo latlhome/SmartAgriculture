@@ -39,7 +39,7 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     private PlantDiseaseMapper diseaseMapper;
 
     @Override
-    public CommonResult addCategory(AddCategoryDto dto) {
+    public CommonResult<String> addCategory(AddCategoryDto dto) {
         //进行判断类别是否存在
         List<DiseaseMenu> diseaseMenus = baseMapper.selectList(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType,0));
         for (DiseaseMenu diseaseMenu : diseaseMenus) {
@@ -58,7 +58,7 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     }
 
     @Override
-    public CommonResult addPlant(AddPlantDto dto) {
+    public CommonResult<String> addPlant(AddPlantDto dto) {
         //进行判断类别是否存在
         List<DiseaseMenu> diseaseMenus = baseMapper.selectList(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType,dto.getCategoryId()));
         for (DiseaseMenu diseaseMenu : diseaseMenus) {
@@ -77,7 +77,7 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     }
 
     @Override
-    public CommonResult updateCategory(UpdateCategoryDto dto) {
+    public CommonResult<String> updateCategory(UpdateCategoryDto dto) {
         DiseaseMenu diseaseMenu = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.CATEGORY.getCode()).eq(DiseaseMenu::getId, dto.getId()));
         if (ObjectUtil.isNull(diseaseMenu)) return CommonResult.failed("更新的类别不存在！");
         DiseaseMenu newDiseaseMenu = new DiseaseMenu();
@@ -88,7 +88,7 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     }
 
     @Override
-    public CommonResult deleteCategory(String id) {
+    public CommonResult<String> deleteCategory(String id) {
         DiseaseMenu diseaseMenu = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.CATEGORY.getCode()).eq(DiseaseMenu::getId,id));
         if (ObjectUtil.isNull(diseaseMenu)) return CommonResult.failed("要删除的类别不存在！");
         List<DiseaseMenu> diseaseMenus = baseMapper.selectList(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.PLANT.getCode()).eq(DiseaseMenu::getCategoryId,id));
@@ -99,7 +99,7 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     }
 
     @Override
-    public CommonResult getCategory(PageDto pageDto) {
+    public CommonResult<List<GetCategoryVo>> getCategory(PageDto pageDto) {
         List<GetCategoryVo> vo = new ArrayList<>();
         LambdaQueryWrapper<DiseaseMenu> lambda = new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getCategoryId, MenuType.CATEGORY.getCode());
         IPage<DiseaseMenu> diseaseMenus = baseMapper.selectPage(new Page<>(pageDto.getPageNum(), pageDto.getPageSize()), lambda);
@@ -112,7 +112,7 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     }
 
     @Override
-    public CommonResult updatePlant(UpdatePlantDto dto) {
+    public CommonResult<String> updatePlant(UpdatePlantDto dto) {
         Integer integer = baseMapper.selectPlantById(dto.getId());
         if (integer == 0) return CommonResult.failed("更新的植物不存在！");
         DiseaseMenu newDiseaseMenu = new DiseaseMenu();
@@ -123,7 +123,7 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     }
 
     @Override
-    public CommonResult deletePlant(String id) {
+    public CommonResult<String> deletePlant(String id) {
         Integer integer = baseMapper.selectPlantById(id);
         if (integer == 0) return CommonResult.failed("要删除的植物不存在！");
         List<PlantDisease> plantDiseases = diseaseMapper.selectList(new QueryWrapper<PlantDisease>().lambda().eq(PlantDisease::getPlantId, id));
@@ -134,7 +134,7 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     }
 
     @Override
-    public CommonResult getPlantsByCategoryId(ByIdPage page) {
+    public CommonResult<List<GetPlantsByCategoryIdVo>> getPlantsByCategoryId(ByIdPage page) {
         List<GetPlantsByCategoryIdVo> vo = new ArrayList<>();
         DiseaseMenu diseaseMenu = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.CATEGORY.getCode()).eq(DiseaseMenu::getId, page.getId()));
         if (ObjectUtil.isNull(diseaseMenu)) return CommonResult.failed("查找的类别不存在！");
@@ -149,7 +149,7 @@ public class DiseaseMenuServiceImpl extends ServiceImpl<DiseaseMenuMapper, Disea
     }
 
     @Override
-    public CommonResult plantToOtherCategory(PlantToOtherCategoryDto dto) {
+    public CommonResult<String> plantToOtherCategory(PlantToOtherCategoryDto dto) {
         DiseaseMenu diseaseMenu = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.PLANT.getCode()).eq(DiseaseMenu::getId,dto.getPlantId()));
         if (ObjectUtil.isNull(diseaseMenu)) return CommonResult.failed("要移动的植物不存在!");
         DiseaseMenu diseaseMenuCategory = baseMapper.selectOne(new QueryWrapper<DiseaseMenu>().lambda().eq(DiseaseMenu::getMenuType, MenuType.CATEGORY.getCode()).eq(DiseaseMenu::getId,dto.getCategoryId()));
