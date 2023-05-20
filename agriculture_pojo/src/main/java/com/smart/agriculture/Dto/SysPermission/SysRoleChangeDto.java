@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SysRoleChange {
+public class SysRoleChangeDto {
 
   private List<String> authList;
 

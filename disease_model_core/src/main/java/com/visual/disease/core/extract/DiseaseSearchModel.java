@@ -13,7 +13,7 @@ public interface DiseaseSearchModel {
      * @param file 图片
      * @return 结果集
      */
-    List<Output> PictureEvaluation(MultipartFile file);0
+    List<Output> PictureEvaluation(MultipartFile file);
 
     /**
      * Test接口

@@ -85,7 +85,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 }
                 //去重
                 admin.setAuthList(data.getAuthList().stream().distinct().collect(Collectors.toList()));
-                admin.setAuthList(data.getAuthList().stream().distinct().collect(Collectors.toList()));
                 user.setAuthData(JSONUtil.toJsonStr(admin));
             } else {
                 //如果没有角色，那就没有权限

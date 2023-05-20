@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 
 @RestController
-@Api(tags = "图片上传")
+@Api(tags = "0图片上传")
 @Slf4j
 @RequestMapping(value = "/images/manager")
 public class ManageFileController {

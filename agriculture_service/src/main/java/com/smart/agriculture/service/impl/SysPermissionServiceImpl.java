@@ -233,10 +233,10 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Override
     public CommonResult<List<String>> getByRolePermission(Long id) {
         SysRole sysRole = roleMapper.selectPermission(id);
-        SysRoleChange sysRoleChange = JSONUtil.toBean(sysRole.getAuthData(), SysRoleChange.class);
+        SysRoleChangeDto sysRoleChangeDto = JSONUtil.toBean(sysRole.getAuthData(), SysRoleChangeDto.class);
         List<String> resultId = new ArrayList<>();
         List<SysPermission> permissionList = baseMapper.selectList(new QueryWrapper<SysPermission>().lambda()
-                .in(SysPermission::getId, sysRoleChange.getAuthList())); //通过角色权限id   获取权限列表
+                .in(SysPermission::getId, sysRoleChangeDto.getAuthList())); //通过角色权限id   获取权限列表
         List<SysTreePermissionVo> permissionTreeVoList = getPermissionTree(permissionList); //生成树状结构
         getBelow(permissionTreeVoList, resultId);
         return CommonResult.success(resultId);
