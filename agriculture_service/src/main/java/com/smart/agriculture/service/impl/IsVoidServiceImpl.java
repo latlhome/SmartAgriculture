@@ -1,12 +1,10 @@
 package com.smart.agriculture.service.impl;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.smart.agriculture.Do.*;
 import com.smart.agriculture.common.utils.JwtTokenUtil;
 import com.smart.agriculture.mapper.*;
 import com.smart.agriculture.service.IIsVoidService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,9 +31,8 @@ public class IsVoidServiceImpl implements IIsVoidService {
     private PlantingLogMapper plantingLogMapper;
 
     @Override
-    public boolean isLogin() {
-        String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
-        return !StringUtils.isBlank(username);
+    public String isLogin() {
+        return jwtTokenUtil.getUsernameByRequest(httpServletRequest);
     }
 
     @Override
@@ -45,44 +42,37 @@ public class IsVoidServiceImpl implements IIsVoidService {
     }
 
     @Override
-    public boolean categoryIsExist(Long id) {
-        DiseaseMenu s = diseaseMenuMapper.selectCategoryById(id);
-        return ObjectUtil.isNotNull(s);
+    public DiseaseMenu categoryIsExist(Long id) {
+        return diseaseMenuMapper.selectCategoryById(id);
     }
 
     @Override
-    public boolean diseaseIsExist(Long id) {
-        PlantDisease plantDisease = diseaseMapper.selectOne(new QueryWrapper<PlantDisease>().lambda().eq(PlantDisease::getId, id));
-        return ObjectUtil.isNotNull(plantDisease);
+    public PlantDisease diseaseIsExist(Long id) {
+        return diseaseMapper.selectOne(new QueryWrapper<PlantDisease>().lambda().eq(PlantDisease::getId, id));
     }
 
     @Override
-    public boolean userIsExist(String username) {
-        SysUser sysUser = sysUserMapper.selectOneByUsername(username);
-        return ObjectUtil.isNotNull(sysUser);
+    public SysUser userIsExist(String username) {
+        return sysUserMapper.selectOneByUsername(username);
     }
 
     @Override
-    public boolean freedomArticleIsExist(Long id) {
-        FreedomArticle freedomArticle = freedomArticleMapper.selectArticleById(String.valueOf(id));
-        return ObjectUtil.isNotNull(freedomArticle);
+    public FreedomArticle freedomArticleIsExist(Long id) {
+        return freedomArticleMapper.selectArticleById(String.valueOf(id));
     }
 
     @Override
-    public boolean askQuestionsArticleIsExist(Long id) {
-        AskQuestionsArticle askQuestionsArticle = askQuestionsArticleMapper.selectOneById(id);
-        return ObjectUtil.isNotNull(askQuestionsArticle);
+    public AskQuestionsArticle askQuestionsArticleIsExist(Long id) {
+        return askQuestionsArticleMapper.selectOneById(id);
     }
 
     @Override
-    public boolean commentIsExist(Long id) {
-        Comment comment = commentMapper.selectOneCommentById(String.valueOf(id));
-        return ObjectUtil.isNotNull(comment);
+    public Comment commentIsExist(Long id) {
+        return commentMapper.selectOneCommentById(String.valueOf(id));
     }
 
     @Override
-    public boolean logIsExist(Long id) {
-        PlantingLog plantingLog = plantingLogMapper.selectPlantingLogById(id);
-        return ObjectUtil.isNotNull(plantingLog);
+    public PlantingLog logIsExist(Long id) {
+        return plantingLogMapper.selectPlantingLogById(id);
     }
 }

@@ -68,7 +68,8 @@ public class AskQuestionsArticleServiceImpl extends ServiceImpl<AskQuestionsArti
     @Override
     public CommonResult<String> updateAskQuestionsArticle(UpdateAskQuestionsArticleDto dto) {
         AskQuestionsArticle ask = baseMapper.selectOneById(dto.getId());
-        if (!isVoidService.askQuestionsArticleIsExist(dto.getId())) return CommonResult.failed("问题不存在!");
+        AskQuestionsArticle askQuestionsArticle = isVoidService.askQuestionsArticleIsExist(dto.getId());
+        if (ObjectUtil.isNull(askQuestionsArticle)) return CommonResult.failed("问题不存在!");
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
         if (!Objects.equals(username, ask.getAuthorUsername())) return CommonResult.failed("您没有权限修改该问题！");
         if (ask.getState().equals(State.resolved.getCode())) return CommonResult.failed("已解决的问题不可修改！");
@@ -82,7 +83,8 @@ public class AskQuestionsArticleServiceImpl extends ServiceImpl<AskQuestionsArti
     @Override
     public CommonResult<String> deleteAskQuestionsArticle(Long id) {
         AskQuestionsArticle ask = baseMapper.selectOneById(id);
-        if (!isVoidService.askQuestionsArticleIsExist(id)) return CommonResult.failed("问题不存在!");
+        AskQuestionsArticle askQuestionsArticle = isVoidService.askQuestionsArticleIsExist(id);
+        if (ObjectUtil.isNull(askQuestionsArticle)) return CommonResult.failed("问题不存在!");
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
         if (!Objects.equals(username, ask.getAuthorUsername())) return CommonResult.failed("您没有权限删除该问题！");
         if (ask.getState().equals(State.resolved.getCode())) return CommonResult.failed("已解决的问题不可删除！");
