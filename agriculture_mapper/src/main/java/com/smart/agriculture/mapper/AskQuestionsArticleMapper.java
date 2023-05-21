@@ -18,4 +18,13 @@ public interface AskQuestionsArticleMapper extends BaseMapper<AskQuestionsArticl
      * @return 问答具体信息
      */
     AskQuestionsArticle selectOneById(Long id);
+
+    /**
+     * 更改问答状态
+     *
+     * @param id 问答Id
+     * @param code      状态ID
+     * @return 是否成功
+     */
+    boolean setArticleState(Long id, Integer code);
 }

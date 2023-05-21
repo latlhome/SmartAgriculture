@@ -18,4 +18,11 @@ public interface DiseaseMenuMapper extends BaseMapper<DiseaseMenu> {
      * @return 查询到的个数
      */
     Integer selectPlantById(String plantId);
+
+    /**
+     * 根据id获取类别
+     * @param id 类别ID
+     * @return 类别
+     */
+    DiseaseMenu selectCategoryById(Long id);
 }

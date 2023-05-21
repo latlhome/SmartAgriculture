@@ -22,6 +22,7 @@ import com.smart.agriculture.enums.AskQuestionsArticle.State;
 import com.smart.agriculture.mapper.AskQuestionsArticleMapper;
 import com.smart.agriculture.mapper.SysUserMapper;
 import com.smart.agriculture.service.IAskQuestionsArticleService;
+import com.smart.agriculture.service.IIsVoidService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -48,10 +49,13 @@ public class AskQuestionsArticleServiceImpl extends ServiceImpl<AskQuestionsArti
     private HttpServletRequest httpServletRequest;
     @Resource
     private SysUserMapper sysUserMapper;
+    @Resource
+    private IIsVoidService isVoidService;
     @Override
     public CommonResult<String> addAskQuestionsArticle(AddAskQuestionsArticleDto dto) {
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
         if (StringUtils.isBlank(username)) return  CommonResult.failed("登录后重试！");
+        if (!isVoidService.plantIsExist(Long.valueOf(dto.getPlantId()))) return CommonResult.failed("植物不存在!");
         AskQuestionsArticle askQuestionsArticle = new AskQuestionsArticle();
         BeanUtil.copyProperties(dto,askQuestionsArticle);
         askQuestionsArticle.setAuthorUsername(username);
@@ -64,7 +68,7 @@ public class AskQuestionsArticleServiceImpl extends ServiceImpl<AskQuestionsArti
     @Override
     public CommonResult<String> updateAskQuestionsArticle(UpdateAskQuestionsArticleDto dto) {
         AskQuestionsArticle ask = baseMapper.selectOneById(dto.getId());
-        if (ObjectUtil.isNull(ask)) return CommonResult.failed("问题不存在!");
+        if (!isVoidService.askQuestionsArticleIsExist(dto.getId())) return CommonResult.failed("问题不存在!");
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
         if (!Objects.equals(username, ask.getAuthorUsername())) return CommonResult.failed("您没有权限修改该问题！");
         if (ask.getState().equals(State.resolved.getCode())) return CommonResult.failed("已解决的问题不可修改！");
@@ -78,7 +82,7 @@ public class AskQuestionsArticleServiceImpl extends ServiceImpl<AskQuestionsArti
     @Override
     public CommonResult<String> deleteAskQuestionsArticle(Long id) {
         AskQuestionsArticle ask = baseMapper.selectOneById(id);
-        if (ObjectUtil.isNull(ask)) return CommonResult.failed("问题不存在!");
+        if (!isVoidService.askQuestionsArticleIsExist(id)) return CommonResult.failed("问题不存在!");
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
         if (!Objects.equals(username, ask.getAuthorUsername())) return CommonResult.failed("您没有权限删除该问题！");
         if (ask.getState().equals(State.resolved.getCode())) return CommonResult.failed("已解决的问题不可删除！");
@@ -93,6 +97,7 @@ public class AskQuestionsArticleServiceImpl extends ServiceImpl<AskQuestionsArti
         IPage<AskQuestionsArticle> page = new Page<>(dto.getPageNum(),dto.getPageSize());
         LambdaQueryWrapper<AskQuestionsArticle> lambda = new QueryWrapper<AskQuestionsArticle>().lambda();
         if (ObjectUtil.isNotNull(dto.getState())) lambda.eq(AskQuestionsArticle::getState,dto.getState());
+        lambda.orderByDesc(AskQuestionsArticle::getCreateTime);
         IPage<AskQuestionsArticle> data = baseMapper.selectPage(page, lambda);
         for (AskQuestionsArticle record : data.getRecords()) {
             GetAllListVo flag = new GetAllListVo();

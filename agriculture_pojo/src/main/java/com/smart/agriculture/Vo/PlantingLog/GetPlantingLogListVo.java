@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Date;
 @Data
 public class GetPlantingLogListVo {
-    private Long id;
+    private String id;
 
     /**
      * 创建时间

@@ -9,4 +9,11 @@
             id = #{id} and
             is_del = 0
     </select>
+    <select id="selectCategoryById" resultType="com.smart.agriculture.Do.DiseaseMenu">
+        select *
+        from disease_menu
+        where menu_type = 0 and
+              id = #{id} and
+              is_del = 0
+    </select>
 </mapper>

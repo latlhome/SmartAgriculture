@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -95,6 +96,7 @@ public class PlantingLogServiceImpl extends ServiceImpl<PlantingLogMapper, Plant
         if (ObjectUtil.isNull(plantingLog)) return CommonResult.failed("日志不存在！");
         GetPlantingLogVo vo = new GetPlantingLogVo();
         BeanUtil.copyProperties(plantingLog,vo);
+        vo.setDrawings(Arrays.asList(plantingLog.getDrawing().split("#")));
         return CommonResult.success(vo);
     }
 }

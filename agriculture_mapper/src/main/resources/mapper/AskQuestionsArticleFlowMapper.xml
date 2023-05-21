@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smart.agriculture.mapper.AskQuestionsArticleFlowMapper">
 
+    <select id="selectAskById" resultType="com.smart.agriculture.Do.AskQuestionsArticleFlow">
+        select *
+        from ask_questions_article_flow
+        where id=#{id} and
+              is_del = 0
+    </select>
 </mapper>

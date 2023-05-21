@@ -32,9 +32,9 @@ public class AskQuestionsArticleFlow extends BaseDo {
     @ApiModelProperty("问题回复")
     private String answer;
     /**
-     * 是否采纳 0否 1是
+     * 是否采纳 -1否 0待处理 1是
      */
-    @ApiModelProperty("是否采纳 0否 1是")
+    @ApiModelProperty("是否采纳 -1否 0待处理 1是")
     private Integer adopt;
 
 }

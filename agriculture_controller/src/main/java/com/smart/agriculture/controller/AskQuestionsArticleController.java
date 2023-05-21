@@ -9,6 +9,7 @@ import com.smart.agriculture.Vo.AskQuestionsArticle.GetOneVo;
 import com.smart.agriculture.Vo.PageVo;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.service.IAskQuestionsArticleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/askQuestionsArticle")
+@Api(tags = "问答帖子相关")
 public class AskQuestionsArticleController {
     @Resource
     private IAskQuestionsArticleService baseService;
@@ -43,9 +45,8 @@ public class AskQuestionsArticleController {
     public CommonResult<String> deleteAskQuestionsArticle(@PathVariable("id") Long id){
         return baseService.deleteAskQuestionsArticle(id);
     }
-
     @GetMapping("/getAllList")
-    @ApiOperation("查询问答")
+    @ApiOperation("查询问答列表")
     public CommonResult<PageVo<GetAllListVo>> getAllList(GetAllListDto dto){
         return baseService.getAllList(dto);
     }
