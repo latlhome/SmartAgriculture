@@ -145,7 +145,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     public CommonResult<PageVo<SysPermission>> selectPermissionList(SelectPermissionListDto dto) {
         IPage<SysPermission> page = new Page<>(dto.getPageNum(), dto.getPageSize());
         IPage<SysPermission> sysPermissionIPage = baseMapper.selectPage(page, new QueryWrapper<SysPermission>().lambda()
-                .like(SysPermission::getLabel, dto.getLabel())
+                .like(ObjectUtil.isNotNull(dto.getLabel()),SysPermission::getLabel, dto.getLabel())
                 .orderByDesc(SysPermission::getCreateTime));
         PageVo<SysPermission> vo = new PageVo<>();
         vo.setData(sysPermissionIPage.getRecords());

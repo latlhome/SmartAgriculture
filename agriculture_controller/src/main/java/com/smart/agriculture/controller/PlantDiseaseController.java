@@ -39,12 +39,14 @@ public class PlantDiseaseController {
     }
 
     @PutMapping("/updatePlantDisease")
+    @PreAuthorize("hasAuthority('plant:disease:database:update')")
     @ApiOperation("更新植物下病害")
     public CommonResult<String> updatePlantDisease(@RequestBody UpdatePlantDiseaseDto updatePlantDiseaseDto){
         return plantDiseaseService.updatePlantDisease(updatePlantDiseaseDto);
     }
     @DeleteMapping("/deletePlantDisease/{id}")
     @ApiOperation("删除植物下病害")
+    @PreAuthorize("hasAuthority('plant:disease:database:delete')")
     public CommonResult<String> deletePlantDisease(@PathVariable("id") String id){
         return plantDiseaseService.deletePlantDisease(id);
     }
