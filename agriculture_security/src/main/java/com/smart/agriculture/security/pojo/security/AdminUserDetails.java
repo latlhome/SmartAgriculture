@@ -1,13 +1,13 @@
 package com.smart.agriculture.security.pojo.security;
 
 
-import com.smart.agriculture.security.pojo.premission.SysPermission;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
  */
 public class AdminUserDetails implements UserDetails {
     private final SysUser sysUser;
-    private final List<SysPermission> permissionList;
+    private final List<String> permissionList;
 
-    public AdminUserDetails(SysUser sysUser, List<SysPermission> permissionList) {
+    public AdminUserDetails(SysUser sysUser, List<String> permissionList) {
         this.sysUser = sysUser;
         this.permissionList = permissionList;
     }
@@ -26,8 +26,8 @@ public class AdminUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // 返回当前用户的权限
         return permissionList.stream()
-                .filter(permission -> permission.getValue() != null)
-                .map(permission -> new SimpleGrantedAuthority(permission.getValue()))
+                .filter(Objects::nonNull)
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
 

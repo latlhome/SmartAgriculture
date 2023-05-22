@@ -25,7 +25,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/askQuestionsArticle")
-@Api(tags = "问答帖子相关")
+@Api(tags = "4==问答帖子相关")
 public class AskQuestionsArticleController {
     @Resource
     private IAskQuestionsArticleService baseService;

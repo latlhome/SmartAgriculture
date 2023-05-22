@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/plantingLog")
-@Api(tags = "种植日志")
+@Api(tags = "5==种植日志")
 public class PlantingLogController {
     @Resource
     private IPlantingLogService plantingLogService;

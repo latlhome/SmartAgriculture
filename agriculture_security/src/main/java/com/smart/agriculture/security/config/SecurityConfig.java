@@ -1,7 +1,6 @@
 package com.smart.agriculture.security.config;
 
 
-import com.smart.agriculture.security.pojo.premission.SysPermission;
 import com.smart.agriculture.security.pojo.security.AdminSaveDetails;
 import com.smart.agriculture.security.pojo.security.AdminUserDetails;
 import com.smart.agriculture.security.pojo.security.RedisUserInfo;
@@ -100,7 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     if (redisUserInfo == null) {
                         redisUserInfo = new RedisUserInfo();
                     }
-                    List<SysPermission> permissionList = redisUserInfo.getPermissionList();
+                    List<String> permissionList = redisUserInfo.getPermissionValueList();
                     if (permissionList == null) {
                         permissionList = new ArrayList<>();
                     }

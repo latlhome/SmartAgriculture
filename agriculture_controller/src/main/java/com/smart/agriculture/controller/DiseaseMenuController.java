@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/diseaseMenu")
-@Api(tags = "病害菜单")
+@Api(tags = "2==病害菜单")
 public class DiseaseMenuController {
     @Resource
     private IDiseaseMenuService diseaseMenuService;

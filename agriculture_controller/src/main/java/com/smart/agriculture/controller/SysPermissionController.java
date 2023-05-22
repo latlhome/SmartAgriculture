@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sysPermission")
-@Api(tags="0系统 权限管理接口")
+@Api(tags="0==系统 权限管理接口")
 public class SysPermissionController {
     @Resource
     private ISysPermissionService permissionService;

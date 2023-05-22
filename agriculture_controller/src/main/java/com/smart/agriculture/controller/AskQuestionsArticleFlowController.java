@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/askQuestionsArticleFlow")
-@Api(tags = "问答回复相关")
+@Api(tags = "4==问答回复相关")
 public class AskQuestionsArticleFlowController {
     @Resource
     private IAskQuestionsArticleFlowService baseService;

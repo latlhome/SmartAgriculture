@@ -26,7 +26,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/freedomArticle")
-@Api(tags = "自由帖子")
+@Api(tags = "3==自由帖子")
 public class FreedomArticleController {
     @Resource
     private IFreedomArticleService freedomArticleService;

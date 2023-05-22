@@ -24,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/comment")
-@Api(tags = "评论相关功能")
+@Api(tags = "3==评论相关功能")
 public class CommentController {
     @Resource
     private ICommentService commentService;

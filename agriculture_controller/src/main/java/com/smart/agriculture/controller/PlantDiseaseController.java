@@ -10,6 +10,7 @@ import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.service.IPlantDiseaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,12 +26,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/plantDisease")
-@Api( tags = "病害数据库")
+@Api( tags = "2==病害数据库")
 public class PlantDiseaseController {
     @Resource
     private IPlantDiseaseService plantDiseaseService;
 
     @PostMapping("/addPlantDisease")
+    @PreAuthorize("hasAuthority('plant:disease:database:add')")
     @ApiOperation("增添植物下病害")
     public CommonResult<String> addPlantDisease(@RequestBody AddPlantDiseaseDto addPlantDiseaseDto){
         return plantDiseaseService.addPlantDisease(addPlantDiseaseDto);

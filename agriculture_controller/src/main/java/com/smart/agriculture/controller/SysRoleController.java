@@ -24,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sysRole")
-@Api(tags = "0系统 角色管理接口")
+@Api(tags = "0==系统 角色管理接口")
 public class SysRoleController {
     @Resource
     private ISysRoleService roleService;

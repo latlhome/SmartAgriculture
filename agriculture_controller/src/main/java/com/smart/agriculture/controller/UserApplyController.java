@@ -3,9 +3,11 @@ package com.smart.agriculture.controller;
 
 import com.smart.agriculture.Dto.UserApply.AddUserApplyDto;
 import com.smart.agriculture.Dto.UserApply.UpdateUserApplyDto;
+import com.smart.agriculture.Dto.UserApplyFlow.ApproveDto;
 import com.smart.agriculture.Vo.UserApply.ApplyDetailsVo;
 import com.smart.agriculture.Vo.UserApply.MyApplyListVo;
 import com.smart.agriculture.common.result.CommonResult;
+import com.smart.agriculture.service.IUserApplyFlowService;
 import com.smart.agriculture.service.IUserApplyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,10 +26,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/userApply")
-@Api(tags = "用户申请身份")
+@Api(tags = "6==用户申请")
 public class UserApplyController {
     @Resource
     private IUserApplyService baseService;
+    @Resource
+    private IUserApplyFlowService userApplyFlowService;
     @PostMapping("/add")
     @ApiOperation("用户申请身份")
     public CommonResult<String> addUserApply(@RequestBody AddUserApplyDto dto){
@@ -58,6 +62,13 @@ public class UserApplyController {
     @ApiOperation("获取所有人申请详细")
     public CommonResult<List<MyApplyListVo>> getMyApplyOne(){
         return baseService.getAllApplyList();
+    }
+
+
+    @PostMapping("/approve")
+    @ApiOperation("审批用户申请")
+    public CommonResult<String> approve(@RequestBody ApproveDto dto){
+        return userApplyFlowService.addUserApply(dto);
     }
 }
 
