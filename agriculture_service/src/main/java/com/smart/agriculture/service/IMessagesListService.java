@@ -1,7 +1,13 @@
 package com.smart.agriculture.service;
 
-import com.smart.agriculture.Do.MessagesList;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.smart.agriculture.Do.MessagesList;
+import com.smart.agriculture.Vo.MessagesList.MyCommentMessageListVo;
+import com.smart.agriculture.Vo.MessagesList.MyLikeMessageListVo;
+import com.smart.agriculture.Vo.MessagesList.MySystemMessageListVo;
+import com.smart.agriculture.common.result.CommonResult;
+
+import java.util.List;
 
 /**
  * <p>
@@ -35,4 +41,28 @@ public interface IMessagesListService extends IService<MessagesList> {
      * @param type 类型
      */
     void sendCommentMessage(String acceptNumber,String otherId,String content,Integer type);
+
+    /**
+     * 查看自己消息列表
+     * @return 消息列表
+     */
+    CommonResult<List<MySystemMessageListVo>> queryMyMesList();
+
+    /**
+     * 点赞消息列表
+     * @return 列表
+     */
+    CommonResult<List<MyLikeMessageListVo>> queryLikeMes();
+
+    /**
+     * 查询自己回复消息
+     * @return 回复消息
+     */
+    CommonResult<List<MyCommentMessageListVo>> queryCommentMes();
+
+    /**
+     * 更新未读状态
+     * @return 操作状态
+     */
+    CommonResult<String> isRead(String id);
 }

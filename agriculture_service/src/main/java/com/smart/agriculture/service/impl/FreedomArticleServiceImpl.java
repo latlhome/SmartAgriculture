@@ -154,7 +154,7 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
         if (ObjectUtil.isNull(freedomArticle)) return  CommonResult.failed("帖子不存在");
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
         // 判断当前登录用户是否已经点赞
-        String key = ARTICLE_ALL_KEY + id;
+        String key = ARTICLE_LIKED_KEY + id;
         Double score = stringRedisTemplate.opsForZSet().score(key, username);
         if (score == null) {
             // 如果未点赞，可以点赞

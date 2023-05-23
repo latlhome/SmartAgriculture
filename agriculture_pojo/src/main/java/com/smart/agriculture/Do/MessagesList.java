@@ -46,10 +46,10 @@ public class MessagesList extends BaseDo {
 
     /**
      * 类型  （用户私信   系统通知   被评论回复等消息通知）
-10 系统通知
-20 点赞通知
-30 帖子回复通知
-40 评论回复通知
+     *  10 系统通知
+     *  20 点赞通知
+     *  30 帖子回复通知
+     *  40 评论回复通知
      */
     @ApiModelProperty("10 系统通知\n" +
             "20 点赞通知\n" +
@@ -74,6 +74,4 @@ public class MessagesList extends BaseDo {
      */
     @ApiModelProperty("状态 0--未读  1-- 已读")
     private Boolean isRead;
-
-
 }

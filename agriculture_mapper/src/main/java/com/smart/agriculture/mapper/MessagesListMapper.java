@@ -12,5 +12,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2023-05-23
  */
 public interface MessagesListMapper extends BaseMapper<MessagesList> {
-
+    /**
+     * 查询单个消息
+     * @param id 消息id
+     * @return 消息
+     */
+    MessagesList selectOneById(String id);
 }
