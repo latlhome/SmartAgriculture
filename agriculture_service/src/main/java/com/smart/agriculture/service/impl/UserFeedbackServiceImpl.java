@@ -20,6 +20,7 @@ import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.enums.UserFeedback.UserFeedbackState;
 import com.smart.agriculture.mapper.UserFeedbackMapper;
 import com.smart.agriculture.service.IIsVoidService;
+import com.smart.agriculture.service.IMessagesListService;
 import com.smart.agriculture.service.IUserFeedbackService;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,8 @@ import java.util.Objects;
 public class UserFeedbackServiceImpl extends ServiceImpl<UserFeedbackMapper, UserFeedback> implements IUserFeedbackService {
     @Resource
     private IIsVoidService isVoidService;
+    @Resource
+    private IMessagesListService messagesListService;
     @Override
     public CommonResult<String> addUserFeedback(AddUserFeedbackDto dto) {
         String username = isVoidService.isLogin();
@@ -98,6 +101,7 @@ public class UserFeedbackServiceImpl extends ServiceImpl<UserFeedbackMapper, Use
         if (i>0){
             if (ObjectUtil.isNotNull(dto.getAnswer())){
                 //如果开发者回复不为空，则发送到用户收件箱里
+                messagesListService.sendSystemMessage(s.getUsername(),dto.getAnswer());
                 return CommonResult.success("修改成功！");
             }
             return CommonResult.success("修改成功！");

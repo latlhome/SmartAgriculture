@@ -2,6 +2,7 @@ package com.smart.agriculture.controller;
 
 
 import com.smart.agriculture.Dto.ByIdPage;
+import com.smart.agriculture.Dto.Comment.AddCommentDto;
 import com.smart.agriculture.Vo.Comment.CommentVo;
 import com.smart.agriculture.Vo.Comment.SecondaryCommentVo;
 import com.smart.agriculture.Vo.PageVo;
@@ -44,6 +45,11 @@ public class CommentController {
     @ApiOperation("删除回复")
     public CommonResult<String> deleteComment(@PathVariable("id") String id){
         return commentService.deleteCommentById(id);
+    }
+    @PostMapping("/add")
+    @ApiOperation("回复帖子/评论")
+    public CommonResult<String> addComment(AddCommentDto dto){
+        return commentService.addComment(dto);
     }
 
 }

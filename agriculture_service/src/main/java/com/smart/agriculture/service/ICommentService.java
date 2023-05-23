@@ -3,6 +3,7 @@ package com.smart.agriculture.service;
 import com.smart.agriculture.Do.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.smart.agriculture.Dto.ByIdPage;
+import com.smart.agriculture.Dto.Comment.AddCommentDto;
 import com.smart.agriculture.Vo.Comment.CommentVo;
 import com.smart.agriculture.Vo.Comment.SecondaryCommentVo;
 import com.smart.agriculture.Vo.PageVo;
@@ -40,4 +41,11 @@ public interface ICommentService extends IService<Comment> {
      */
 
     CommonResult<String> deleteCommentById(String id);
+
+    /**
+     * 添加回复
+     * @param dto 添加回复Dto
+     * @return 操作状态
+     */
+    CommonResult<String> addComment(AddCommentDto dto);
 }

@@ -26,6 +26,7 @@ import com.smart.agriculture.common.utils.JwtTokenUtil;
 import com.smart.agriculture.enums.SysUser.UserType;
 import com.smart.agriculture.mapper.*;
 import com.smart.agriculture.service.IFreedomArticleService;
+import com.smart.agriculture.service.IMessagesListService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -65,6 +66,8 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
     private StringRedisTemplate stringRedisTemplate;
     @Resource
     private UserCollectionMapper userCollectionMapper;
+    @Resource
+    private IMessagesListService messagesListService;
     @Override
     public CommonResult<String> addFreedomArticle(AddFreedomArticleDto addFreedomArticleDto) {
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
@@ -151,7 +154,7 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
         if (ObjectUtil.isNull(freedomArticle)) return  CommonResult.failed("帖子不存在");
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
         // 判断当前登录用户是否已经点赞
-        String key = BLOG_LIKED_KEY + id;
+        String key = ARTICLE_ALL_KEY + id;
         Double score = stringRedisTemplate.opsForZSet().score(key, username);
         if (score == null) {
             // 如果未点赞，可以点赞
@@ -160,6 +163,8 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
             // 保存用户到Redis的set集合  zadd key value score
             if (isSuccess) {
                 stringRedisTemplate.opsForZSet().add(key,username, System.currentTimeMillis());
+                Long size = stringRedisTemplate.opsForZSet().size(key);
+                messagesListService.sendLikeMessage(freedomArticle.getAuthorUsername(),id,size);
             }
             return CommonResult.success("点赞成功！");
         } else {
@@ -169,6 +174,8 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
             // 4.2.把用户从Redis的set集合移除
             if (isSuccess) {
                 stringRedisTemplate.opsForZSet().remove(key,username);
+                Long size = stringRedisTemplate.opsForZSet().size(key);
+                messagesListService.sendLikeMessage(freedomArticle.getAuthorUsername(),id,size);
             }
             return CommonResult.success("操作成功！");
         }
@@ -288,7 +295,7 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
             return;
         }
         // 2.判断当前登录用户是否已经点赞
-        String key = BLOG_LIKED_KEY + article.getId();
+        String key = ARTICLE_LIKED_KEY + article.getId();
         Double score = stringRedisTemplate.opsForZSet().score(key,username);
         article.setIsLike(score != null);
     }

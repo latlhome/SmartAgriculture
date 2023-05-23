@@ -1,9 +1,10 @@
-package com.smart.agriculture.enums.DiseaseMenu;
+package com.smart.agriculture.enums.MessagesList;
 
-public enum MenuType {
-    CATEGORY("类别",0),PLANT("植物",1);
+public enum MessageIsRead {
+    unread("未读",0),
+    read("已读",1);
 
-    MenuType(String type, Integer code) {
+    MessageIsRead(String type, Integer code) {
         this.type = type;
         this.code = code;
     }
