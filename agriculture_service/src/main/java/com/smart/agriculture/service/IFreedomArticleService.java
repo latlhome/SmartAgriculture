@@ -5,6 +5,7 @@ import com.smart.agriculture.Do.FreedomArticle;
 import com.smart.agriculture.Dto.FreedomArticle.AddFreedomArticleDto;
 import com.smart.agriculture.Dto.FreedomArticle.QueryOfFollowDto;
 import com.smart.agriculture.Dto.FreedomArticle.SelectFreedomArticleListDto;
+import com.smart.agriculture.Dto.PageDto;
 import com.smart.agriculture.Vo.FreedomArticle.ScrollResultVo;
 import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleListVo;
 import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleVo;
@@ -32,4 +33,6 @@ public interface IFreedomArticleService extends IService<FreedomArticle> {
     CommonResult<String> likeFreedomArticle(String id);
 
     CommonResult<ScrollResultVo> queryOfFollow(QueryOfFollowDto dto);
+
+    CommonResult<PageVo<SelectFreedomArticleListVo>> queryOfCollection(PageDto dto);
 }

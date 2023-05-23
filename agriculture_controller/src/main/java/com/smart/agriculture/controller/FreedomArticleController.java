@@ -4,6 +4,7 @@ package com.smart.agriculture.controller;
 import com.smart.agriculture.Dto.FreedomArticle.AddFreedomArticleDto;
 import com.smart.agriculture.Dto.FreedomArticle.QueryOfFollowDto;
 import com.smart.agriculture.Dto.FreedomArticle.SelectFreedomArticleListDto;
+import com.smart.agriculture.Dto.PageDto;
 import com.smart.agriculture.Vo.FreedomArticle.ScrollResultVo;
 import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleListVo;
 import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleVo;
@@ -54,16 +55,16 @@ public class FreedomArticleController {
         return freedomArticleService.selectFreedomArticleById(id);
     }
 
-    @GetMapping("/likeFreedomArticle/{id}")
-    @ApiOperation("给帖子点赞 --传入帖子ID")
-    public CommonResult<String> likeFreedomArticle(@PathVariable String id){
-        return freedomArticleService.likeFreedomArticle(id);
-    }
 
     @GetMapping("/queryOfFollow")
     @ApiOperation("查看我的关注下的帖子")
     public CommonResult<ScrollResultVo> queryOfFollow(QueryOfFollowDto dto){
         return freedomArticleService.queryOfFollow(dto);
+    }
+    @GetMapping("/queryOfCollection")
+    @ApiOperation("查看我的收藏的帖子")
+    public CommonResult<PageVo<SelectFreedomArticleListVo>> queryOfCollection(PageDto dto){
+        return freedomArticleService.queryOfCollection(dto);
     }
 
 }

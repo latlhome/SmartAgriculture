@@ -1,33 +1,21 @@
-package com.smart.agriculture.Do;
+package com.smart.agriculture.Vo.UserFeedback;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.smart.agriculture.Vo.SysUser.SysUserArticleVo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
-
-/**
- * <p>
- * 
- * </p>
- *
- * @author ylx
- * @since 2023-05-22
- */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
-public class UserFeedback extends BaseDo {
+public class UserFeedbackVo {
 
     private static final long serialVersionUID=1L;
 
     /**
-     * 反馈人的Username
+     * 发布者信息
      */
-    @ApiModelProperty("反馈人的Username")
-    private String username;
+    @ApiModelProperty("发布者信息")
+    private SysUserArticleVo userArticleVo;
 
     /**
      * 问题主题
@@ -52,6 +40,7 @@ public class UserFeedback extends BaseDo {
     @ApiModelProperty("发生时间")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private LocalDateTime happenTime;
+
     /**
      * 问题状态 -1未处理 0正在解决 1 已解决
      */
@@ -63,6 +52,5 @@ public class UserFeedback extends BaseDo {
      */
     @ApiModelProperty("开发者回复")
     private String answer;
-
 
 }

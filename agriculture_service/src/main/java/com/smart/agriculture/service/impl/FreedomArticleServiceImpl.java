@@ -9,9 +9,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.smart.agriculture.Do.FreedomArticle;
 import com.smart.agriculture.Do.SysUser;
+import com.smart.agriculture.Do.UserCollection;
 import com.smart.agriculture.Dto.FreedomArticle.AddFreedomArticleDto;
 import com.smart.agriculture.Dto.FreedomArticle.QueryOfFollowDto;
 import com.smart.agriculture.Dto.FreedomArticle.SelectFreedomArticleListDto;
+import com.smart.agriculture.Dto.PageDto;
 import com.smart.agriculture.Vo.FreedomArticle.ScrollResultVo;
 import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleListVo;
 import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleVo;
@@ -32,8 +34,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-import static com.smart.agriculture.common.config.RedisConstants.BLOG_LIKED_KEY;
-import static com.smart.agriculture.common.config.RedisConstants.FEED_KEY;
+import static com.smart.agriculture.common.config.RedisConstants.*;
 
 /**
  * <p>
@@ -59,6 +60,8 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
     private JwtTokenUtil jwtTokenUtil;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private UserCollectionMapper userCollectionMapper;
     @Override
     public CommonResult<String> addFreedomArticle(AddFreedomArticleDto addFreedomArticleDto) {
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
@@ -123,9 +126,15 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
         vo.setUserArticleVo(sysUserArticleVo);
         //是否点赞
         isBlogLiked(vo);
-        //TODO
-        vo.setIsCollect(null);
+        vo.setIsCollect(isCollect(sysUser.getUsername(),id));
         return CommonResult.success(vo);
+    }
+
+    private Boolean isCollect(String username, String id) {
+        UserCollection collection = userCollectionMapper.selectOne(new QueryWrapper<UserCollection>().lambda()
+                .eq(UserCollection::getUsername, username)
+                .eq(UserCollection::getCollectionId, id));
+        return ObjectUtil.isNotNull(collection);
     }
 
     @Override
@@ -221,6 +230,30 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
         scrollResultVo.setMinTime(minTime);
         scrollResultVo.setOffset(os);
         return CommonResult.success(scrollResultVo);
+    }
+
+    @Override
+    public CommonResult<PageVo<SelectFreedomArticleListVo>> queryOfCollection(PageDto dto) {
+        PageVo<SelectFreedomArticleListVo> pageVo = new PageVo<>();
+        List<SelectFreedomArticleListVo> vos = new ArrayList<>();
+        Page<FreedomArticle> page = new Page<>(dto.getPageNum(), dto.getPageSize());
+        String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
+        String key = COLLECTION + username;
+        Set<String> members = stringRedisTemplate.opsForSet().members(key);
+        ArrayList<String> strings = new ArrayList<>(Objects.requireNonNull(members));
+        LambdaQueryWrapper<FreedomArticle> in = new QueryWrapper<FreedomArticle>().lambda().in(FreedomArticle::getId, strings);
+        IPage<FreedomArticle> freedomArticleIPage = baseMapper.selectPage(page, in);
+        for (FreedomArticle record : freedomArticleIPage.getRecords()) {
+            SelectFreedomArticleListVo vo = new SelectFreedomArticleListVo();
+            BeanUtil.copyProperties(record,vo);
+            vos.add(vo);
+        }
+        pageVo.setData(vos);
+        pageVo.setTotalSize(freedomArticleIPage.getTotal());
+        pageVo.setPageSize(freedomArticleIPage.getSize());
+        pageVo.setPageNum(freedomArticleIPage.getCurrent());
+        pageVo.setTotalPages(freedomArticleIPage.getPages());
+        return CommonResult.success();
     }
 
     public void deleteArticleAllComment(String id){

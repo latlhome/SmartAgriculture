@@ -12,5 +12,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2023-05-22
  */
 public interface UserFeedbackMapper extends BaseMapper<UserFeedback> {
-
+    /**
+     * 根据Id差反馈
+     *
+     * @param id 反馈id
+     * @return 反馈信息
+     */
+    UserFeedback selectOneById(Long id);
 }

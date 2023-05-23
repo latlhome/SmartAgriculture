@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smart.agriculture.mapper.UserFeedbackMapper">
 
+    <select id="selectOneById" resultType="com.smart.agriculture.Do.UserFeedback">
+        select *
+        from user_feedback
+        where id = #{id} and
+              is_del = 0
+    </select>
 </mapper>

@@ -65,6 +65,6 @@ public class SelectFreedomArticleVo {
      * 是否收藏
      */
     @ApiModelProperty("是否收藏")
-    private Integer isCollect;
+    private Boolean isCollect;
 
 }
