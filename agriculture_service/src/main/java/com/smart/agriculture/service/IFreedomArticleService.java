@@ -35,4 +35,6 @@ public interface IFreedomArticleService extends IService<FreedomArticle> {
     CommonResult<ScrollResultVo> queryOfFollow(QueryOfFollowDto dto);
 
     CommonResult<PageVo<SelectFreedomArticleListVo>> queryOfCollection(PageDto dto);
+
+    CommonResult<ScrollResultVo> queryOfArticleList(QueryOfFollowDto dto);
 }

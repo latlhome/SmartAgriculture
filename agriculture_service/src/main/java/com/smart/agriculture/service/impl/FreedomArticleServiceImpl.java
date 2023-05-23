@@ -2,6 +2,8 @@ package com.smart.agriculture.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -33,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.smart.agriculture.common.config.RedisConstants.*;
 
@@ -81,6 +84,7 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
                 String key = FEED_KEY + followUsername;
                 stringRedisTemplate.opsForZSet().add(key, freedomArticle.getId().toString(), System.currentTimeMillis());
             }
+            stringRedisTemplate.opsForZSet().add(ARTICLE_ALL_KEY, freedomArticle.getId().toString(), System.currentTimeMillis());
             return CommonResult.success("创建成功！");
         }
         else return CommonResult.failed("创建出错!");
@@ -114,27 +118,8 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
 
     @Override
     public CommonResult<SelectFreedomArticleVo> selectFreedomArticleById(String id) {
-        SelectFreedomArticleVo vo = new SelectFreedomArticleVo();
-        FreedomArticle freedomArticle = baseMapper.selectArticleById(id);
-        BeanUtil.copyProperties(freedomArticle,vo);
-        vo.setDrawings(Arrays.asList(freedomArticle.getDrawing().split("#")));
-        SysUser sysUser = sysUserMapper.selectOneByUsername(freedomArticle.getAuthorUsername());
-        SysUserArticleVo sysUserArticleVo = new SysUserArticleVo();
-        sysUserArticleVo.setAuthorUsername(sysUser.getUsername());
-        sysUserArticleVo.setAuthorNickname(sysUser.getNickname());
-        sysUserArticleVo.setAuthorPicture(sysUser.getHeadPicture());
-        vo.setUserArticleVo(sysUserArticleVo);
-        //是否点赞
-        isBlogLiked(vo);
-        vo.setIsCollect(isCollect(sysUser.getUsername(),id));
+        SelectFreedomArticleVo vo = queryWithPassThrough(id);
         return CommonResult.success(vo);
-    }
-
-    private Boolean isCollect(String username, String id) {
-        UserCollection collection = userCollectionMapper.selectOne(new QueryWrapper<UserCollection>().lambda()
-                .eq(UserCollection::getUsername, username)
-                .eq(UserCollection::getCollectionId, id));
-        return ObjectUtil.isNotNull(collection);
     }
 
     @Override
@@ -154,6 +139,7 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
                 String key = FEED_KEY + string;
                 stringRedisTemplate.opsForZSet().remove(key,id);
             }
+            stringRedisTemplate.opsForZSet().remove(ARTICLE_ALL_KEY,id);
             return CommonResult.success("删除成功！");
         }
         else return CommonResult.failed("删除失败！");
@@ -195,6 +181,57 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
         if (StringUtils.isBlank(username)) return CommonResult.failed("无登录用户");
         // 查询收件箱
         String key = FEED_KEY + username;
+        return getScrollResultVoCommonResult(dto, key);
+    }
+
+    @Override
+    public CommonResult<PageVo<SelectFreedomArticleListVo>> queryOfCollection(PageDto dto) {
+        PageVo<SelectFreedomArticleListVo> pageVo = new PageVo<>();
+        List<SelectFreedomArticleListVo> vos = new ArrayList<>();
+        Page<FreedomArticle> page = new Page<>(dto.getPageNum(), dto.getPageSize());
+        String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
+        String key = COLLECTION + username;
+        Set<String> members = stringRedisTemplate.opsForSet().members(key);
+        ArrayList<String> strings = new ArrayList<>(Objects.requireNonNull(members));
+        LambdaQueryWrapper<FreedomArticle> in = new QueryWrapper<FreedomArticle>().lambda().in(FreedomArticle::getId, strings);
+        IPage<FreedomArticle> freedomArticleIPage = baseMapper.selectPage(page, in);
+        for (FreedomArticle record : freedomArticleIPage.getRecords()) {
+            SelectFreedomArticleListVo vo = new SelectFreedomArticleListVo();
+            BeanUtil.copyProperties(record,vo);
+            vos.add(vo);
+        }
+        pageVo.setData(vos);
+        pageVo.setTotalSize(freedomArticleIPage.getTotal());
+        pageVo.setPageSize(freedomArticleIPage.getSize());
+        pageVo.setPageNum(freedomArticleIPage.getCurrent());
+        pageVo.setTotalPages(freedomArticleIPage.getPages());
+        return CommonResult.success(pageVo);
+    }
+
+    @Override
+    public CommonResult<ScrollResultVo> queryOfArticleList(QueryOfFollowDto dto) {
+        // 查询收件箱
+        String key = ARTICLE_ALL_KEY;
+        if (dto.getOffset() == 0){
+            Long size = stringRedisTemplate.opsForZSet().size(key);
+            List<FreedomArticle> freedomArticles = baseMapper.selectList(null);
+            if (!Objects.equals(size, (long) freedomArticles.size())){
+                if (size!=null && size!=0) stringRedisTemplate.opsForZSet().remove(key);
+                for (FreedomArticle freedomArticle : freedomArticles) {
+                    stringRedisTemplate.opsForZSet().add(key, String.valueOf(freedomArticle.getId()), freedomArticle.getCreateTime().getTime());
+                }
+            }
+        }
+        return getScrollResultVoCommonResult(dto, key);
+    }
+
+    /**
+     * 根据key去进行滚动分页
+     * @param dto 滚动分页数据
+     * @param key key详细
+     * @return 分页后的数据
+     */
+    private CommonResult<ScrollResultVo> getScrollResultVoCommonResult(QueryOfFollowDto dto, String key) {
         Set<ZSetOperations.TypedTuple<String>> typedTuples = stringRedisTemplate.opsForZSet()
                 .reverseRangeByScoreWithScores(key, 0, dto.getMax(), dto.getOffset(), dto.getCount());
         // 非空判断
@@ -232,30 +269,6 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
         return CommonResult.success(scrollResultVo);
     }
 
-    @Override
-    public CommonResult<PageVo<SelectFreedomArticleListVo>> queryOfCollection(PageDto dto) {
-        PageVo<SelectFreedomArticleListVo> pageVo = new PageVo<>();
-        List<SelectFreedomArticleListVo> vos = new ArrayList<>();
-        Page<FreedomArticle> page = new Page<>(dto.getPageNum(), dto.getPageSize());
-        String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
-        String key = COLLECTION + username;
-        Set<String> members = stringRedisTemplate.opsForSet().members(key);
-        ArrayList<String> strings = new ArrayList<>(Objects.requireNonNull(members));
-        LambdaQueryWrapper<FreedomArticle> in = new QueryWrapper<FreedomArticle>().lambda().in(FreedomArticle::getId, strings);
-        IPage<FreedomArticle> freedomArticleIPage = baseMapper.selectPage(page, in);
-        for (FreedomArticle record : freedomArticleIPage.getRecords()) {
-            SelectFreedomArticleListVo vo = new SelectFreedomArticleListVo();
-            BeanUtil.copyProperties(record,vo);
-            vos.add(vo);
-        }
-        pageVo.setData(vos);
-        pageVo.setTotalSize(freedomArticleIPage.getTotal());
-        pageVo.setPageSize(freedomArticleIPage.getSize());
-        pageVo.setPageNum(freedomArticleIPage.getCurrent());
-        pageVo.setTotalPages(freedomArticleIPage.getPages());
-        return CommonResult.success();
-    }
-
     public void deleteArticleAllComment(String id){
         try {
             List<String> d = commentMapper.selectArticleAllComment(id);
@@ -278,5 +291,60 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
         String key = BLOG_LIKED_KEY + article.getId();
         Double score = stringRedisTemplate.opsForZSet().score(key,username);
         article.setIsLike(score != null);
+    }
+    private SelectFreedomArticleVo queryWithPassThrough(String id) {
+        String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
+        String key = com.smart.agriculture.common.config.RedisConstants.CACHE_ARTICLE_KEY + id;
+        // 1.从redis查询帖子缓存
+        String json = stringRedisTemplate.opsForValue().get(key);
+        // 2.判断是否存在
+        if (StrUtil.isNotBlank(json)) {
+            SelectFreedomArticleVo vo = JSONUtil.toBean(json, SelectFreedomArticleVo.class);
+            //是否点赞
+            isBlogLiked(vo);
+            vo.setIsCollect(isCollect(username,id));
+            // 3.存在，直接返回
+            return vo;
+        }
+        // 判断命中的是否是空值
+        if (json != null) {
+            // 返回一个错误信息
+            return null;
+        }
+
+        // 4.不存在，根据id查询数据库
+        FreedomArticle freedomArticle = baseMapper.selectArticleById(id);
+        // 5.不存在，返回错误
+        if (freedomArticle == null) {
+            // 将空值写入redis
+            stringRedisTemplate.opsForValue().set(key, "", CACHE_NULL_TTL, TimeUnit.MINUTES);
+            // 返回错误信息
+            return null;
+        }
+        SelectFreedomArticleVo vo = new SelectFreedomArticleVo();
+        BeanUtil.copyProperties(freedomArticle,vo);
+        vo.setDrawings(Arrays.asList(freedomArticle.getDrawing().split("#")));
+        SysUser sysUser = sysUserMapper.selectOneByUsername(freedomArticle.getAuthorUsername());
+        SysUserArticleVo sysUserArticleVo = new SysUserArticleVo();
+        sysUserArticleVo.setAuthorUsername(sysUser.getUsername());
+        sysUserArticleVo.setAuthorNickname(sysUser.getNickname());
+        sysUserArticleVo.setAuthorPicture(sysUser.getHeadPicture());
+        vo.setUserArticleVo(sysUserArticleVo);
+        //是否点赞
+        isBlogLiked(vo);
+        vo.setIsCollect(isCollect(username,id));
+        // 6.存在，写入redis
+        this.set(key, vo, CACHE_ARTICLE_TTL, TimeUnit.MINUTES);
+        return vo;
+    }
+    public void set(String key, Object value, Long time, TimeUnit unit) {
+        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value), time, unit);
+    }
+
+    private Boolean isCollect(String username, String id) {
+        UserCollection collection = userCollectionMapper.selectOne(new QueryWrapper<UserCollection>().lambda()
+                .eq(UserCollection::getUsername, username)
+                .eq(UserCollection::getCollectionId, id));
+        return ObjectUtil.isNotNull(collection);
     }
 }

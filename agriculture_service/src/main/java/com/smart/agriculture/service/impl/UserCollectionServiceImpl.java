@@ -49,7 +49,7 @@ public class UserCollectionServiceImpl extends ServiceImpl<UserCollectionMapper,
         } else {
             int isSuccess = baseMapper.delete(new QueryWrapper<UserCollection>().lambda()
                     .eq(UserCollection::getUsername, username)
-                    .eq(UserCollection::getCollectionId, dto.getIsCollection()));
+                    .eq(UserCollection::getCollectionId, dto.getCollectionId()));
             if (isSuccess>0) {
                 // 把收藏的id从Redis集合中移除
                 stringRedisTemplate.opsForSet().remove(key, dto.getCollectionId());

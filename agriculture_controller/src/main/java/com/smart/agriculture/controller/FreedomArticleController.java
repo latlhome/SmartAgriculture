@@ -48,13 +48,17 @@ public class FreedomArticleController {
     public CommonResult<PageVo<SelectFreedomArticleListVo>> selectFreedomArticleList(SelectFreedomArticleListDto dto){
         return freedomArticleService.selectFreedomArticleList(dto);
     }
+    @GetMapping("/queryFreedomArticleList")
+    @ApiOperation("查看自由帖子列表2")
+    public CommonResult<ScrollResultVo> queryFreedomArticleList(QueryOfFollowDto dto){
+        return freedomArticleService.queryOfArticleList(dto);
+    }
 
     @GetMapping("/selectFreedomArticleById/{id}")
     @ApiOperation("查看自由帖子详细")
     public CommonResult<SelectFreedomArticleVo> selectFreedomArticleById(@PathVariable String id){
         return freedomArticleService.selectFreedomArticleById(id);
     }
-
 
     @GetMapping("/queryOfFollow")
     @ApiOperation("查看我的关注下的帖子")
