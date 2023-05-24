@@ -59,6 +59,3 @@ trigger:
   - master
 
 
-node:
-
-  host: drone-server
