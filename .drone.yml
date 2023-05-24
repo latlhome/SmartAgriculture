@@ -1,0 +1,64 @@
+kind: pipeline
+
+type: exec
+
+name: "项目后端"
+
+
+
+steps:
+
+- name: maven package
+
+  commands:
+
+  - mvn clean package -P prod
+
+- name: kill the old one
+
+  commands:
+
+  - kill `ps -ef |agriculture_controller-1.0-SNAPSHOT.jar |grep -v grep| awk '{print $2}'` || exit 0
+
+  - sleep 10
+
+- name: publish
+
+  detach: true
+
+  when:
+
+    status:
+
+    - success
+
+    - failure
+
+  commands:
+
+  - nohup java -jar -Dspring.profiles.active=prod agriculture_controller/target/agriculture_controller-1.0-SNAPSHOT.jar> /root/agriculture/jar_log&
+
+- name: wait
+
+  commands:
+
+  - rm -f /root/agriculture/agriculture_controller-1.0-SNAPSHOT.jar || exit 0
+
+  - sleep 5
+
+  - mv agriculture_controller/target/agriculture_controller-1.0-SNAPSHOT.jar /root/agriculture/agriculture_controller-1.0-SNAPSHOT.jar
+
+  - sleep 5
+
+
+
+trigger:
+
+  branch:
+
+  - master
+
+
+node:
+
+  host: drone-server
