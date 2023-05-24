@@ -4,8 +4,6 @@ type: docker
 
 name: "项目后端"
 
-
-
 steps:
 
 - name: maven package
@@ -32,11 +30,8 @@ steps:
     status:
 
     - success
-
     - failure
-
   commands:
-
   - rm -f /root/agriculture/agriculture_controller-1.0-SNAPSHOT.jar || exit 0
   - mv agriculture_controller/target/agriculture_controller-1.0-SNAPSHOT.jar /root/agriculture/agriculture_controller-1.0-SNAPSHOT.jar
   - cd /root/agriculture
