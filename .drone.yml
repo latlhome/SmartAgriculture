@@ -46,10 +46,4 @@ steps:
 
 
 
-trigger:
-
-  branch:
-
-  - master
-
 
