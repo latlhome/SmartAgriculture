@@ -1,0 +1,44 @@
+kind: pipeline
+
+type: docker
+
+name: "项目后端"
+
+steps:
+
+- name: maven package
+
+  commands:
+
+  - mvn clean package -P prod
+
+- name: kill the old one
+
+  commands:
+
+  - docker stop agriculture
+  - docker rm agriculture
+  - docker rmi agriculture
+  - sleep 10
+
+- name: publish
+
+  detach: true
+
+  when:
+
+    status:
+
+    - success
+    - failure
+  commands:
+  - rm -f /root/agriculture/agriculture_controller-1.0-SNAPSHOT.jar || exit 0
+  - mv agriculture_controller/target/agriculture_controller-1.0-SNAPSHOT.jar /root/agriculture/agriculture_controller-1.0-SNAPSHOT.jar
+  - cd /root/agriculture
+  - docker build -t agriculture .
+  - docker run -d --name agriculture -p 8066:8066 agriculture
+
+
+
+
+
