@@ -37,4 +37,12 @@ public interface FreedomArticleMapper extends BaseMapper<FreedomArticle> {
      */
 
     List<AddAllArticleIdDto> selectAddAllArticleId(String followUserUsername);
+
+    /**
+     * 根据ID获取点赞数量
+     *
+     * @param id 文章ID
+     * @return
+     */
+    Long selectLikeById(String id);
 }

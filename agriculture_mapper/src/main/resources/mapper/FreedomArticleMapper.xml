@@ -21,4 +21,10 @@
         where author_username = #{username} and
             is_del = 0
     </select>
+    <select id="selectLikeById" resultType="java.lang.Long">
+        select freedom_article.liked
+        from freedom_article
+        where id = #{id} and
+              is_del =0
+    </select>
 </mapper>

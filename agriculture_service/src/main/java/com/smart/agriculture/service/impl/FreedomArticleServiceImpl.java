@@ -310,6 +310,7 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
             //是否点赞
             isBlogLiked(vo);
             vo.setIsCollect(isCollect(username,id));
+            likeNmb(vo);
             // 3.存在，直接返回
             return vo;
         }
@@ -344,6 +345,13 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
         this.set(key, vo, CACHE_ARTICLE_TTL, TimeUnit.MINUTES);
         return vo;
     }
+
+    private void likeNmb(SelectFreedomArticleVo vo) {
+        String id = vo.getId();
+        Long s =baseMapper.selectLikeById(id);
+        vo.setLiked(Math.toIntExact(s));
+    }
+
     public void set(String key, Object value, Long time, TimeUnit unit) {
         stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value), time, unit);
     }

@@ -2,17 +2,12 @@ package com.visual.disease.core.utils;
 
 import ai.onnxruntime.OnnxTensor;
 import com.visual.disease.core.base.BaseOnnxInfer;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.imgcodecs.Imgcodecs;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class Util extends BaseOnnxInfer {
     /**
@@ -140,28 +135,6 @@ public class Util extends BaseOnnxInfer {
         return resizedImage;
     }
 
-    /**
-     * matToLocal
-     *
-     * @param mat
-     * @param filename
-     */
-    public static void saveMatImage(Mat mat, String filename) {
-        MatOfByte buffer = new MatOfByte();
-        boolean success = Imgcodecs.imencode(".png", mat, buffer);
-        if (success) {
-            byte[] data = buffer.toArray();
-            try {
-                FileOutputStream outputStream = new FileOutputStream(filename);
-                outputStream.write(data);
-                outputStream.close();
-                System.out.println("Mat image saved as " + filename);
-            } catch (IOException e) {
-                System.out.println("Error saving Mat image as " + filename);
-                e.printStackTrace();
-            }
-        }
-    }
 
     public static void saveNormalizedTensorAsImage(OnnxTensor tensor, String filePath) throws Exception {
         float[][][][] pixelData = (float[][][][]) tensor.getValue();

@@ -4,7 +4,7 @@ import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtLoggingLevel;
 import ai.onnxruntime.OrtSession;
 
-public abstract class BaseOnnxInfer extends OpenCVLoader{
+public abstract class BaseOnnxInfer{
 
     private OrtEnvironment env;
     private String[] inputNames;

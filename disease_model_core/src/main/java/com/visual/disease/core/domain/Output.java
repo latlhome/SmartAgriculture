@@ -22,6 +22,21 @@ public class Output {
     @ApiModelProperty("预测类型")
     private String postprocess;
 
+    public String getSamplePicture() {
+        return samplePicture;
+    }
+
+    public void setSamplePicture(String samplePicture) {
+        this.samplePicture = samplePicture;
+    }
+
+    /**
+     * 示例图片 多张图片用#连接
+     */
+    @ApiModelProperty("示例图片 多张图片用#连接")
+    private String samplePicture;
+
+
     public String getId() {
         return id;
     }
