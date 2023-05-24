@@ -1,6 +1,6 @@
 kind: pipeline
 
-type: docker
+type: exec
 
 name: "项目后端"
 
