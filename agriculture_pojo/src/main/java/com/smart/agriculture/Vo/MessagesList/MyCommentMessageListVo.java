@@ -2,7 +2,6 @@ package com.smart.agriculture.Vo.MessagesList;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.smart.agriculture.Vo.SysUser.SysUserArticleVo;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,13 +10,11 @@ public class MyCommentMessageListVo {
     /**
      * 发送者相关信息
      */
-    @ApiModelProperty("发送者相关信息")
     private SysUserArticleVo sysUserArticleVo;
 
     /**
      * 内容
      */
-    @ApiModelProperty("内容")
     private String content;
 
     /**
@@ -27,24 +24,20 @@ public class MyCommentMessageListVo {
      *  30 帖子回复通知
      *  40 评论回复通知
      */
-    @ApiModelProperty("30 帖子回复通知 40 评论回复通知")
     private Integer type;
     /**
      * 回复的相关内容
      */
-    @ApiModelProperty("相关内容")
     private String data;
 
     /**
      * 点赞唯一标识符
      */
-    @ApiModelProperty("点赞唯一标识符")
     private String otherId;
 
     /**
      * 状态 0--未读  1-- 已读
      */
-    @ApiModelProperty("状态 0--未读  1-- 已读")
     private Boolean isRead;
 
     /**

@@ -75,11 +75,6 @@ jwt:
   expiration: 86400 #JWT的超期限时间(60*60*24)
   tokenHead: Smart  #JWT负载中拿到开头
 
-#输出sql日志
-logging:
-  level:
-    org.jeecg.modules.jmreport : debug
-
 web:
   images-suffix: >
     .JPG,

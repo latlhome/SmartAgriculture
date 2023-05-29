@@ -1,7 +1,6 @@
 package com.smart.agriculture.Vo.MessagesList;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,13 +15,11 @@ public class MySystemMessageListVo {
     /**
      * 内容
      */
-    @ApiModelProperty("内容")
     private String content;
 
     /**
      * 状态 0--未读  1-- 已读
      */
-    @ApiModelProperty("状态 0--未读  1-- 已读")
     private Boolean isRead;
 
     /**

@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  meeting-backend:
+    container_name: SmartAgriculture
+    image: app:1.0
+    volumes:
+      - C:/images:/work/images
+    ports:
+      - "8066:8066"
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+    restart: always

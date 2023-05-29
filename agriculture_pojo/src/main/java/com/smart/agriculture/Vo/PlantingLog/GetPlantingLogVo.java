@@ -1,7 +1,6 @@
 package com.smart.agriculture.Vo.PlantingLog;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -13,17 +12,14 @@ public class GetPlantingLogVo {
     /**
      * 标题
      */
-    @ApiModelProperty("标题")
     private String title;
     /**
      * 内容
      */
-    @ApiModelProperty("内容")
     private String content;
     /**
      * 配图 多个图片用#间隔
      */
-    @ApiModelProperty("配图 多个图片用#间隔")
     private List<String> drawings;
     /**
      * 创建时间
