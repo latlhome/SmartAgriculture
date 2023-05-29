@@ -72,7 +72,6 @@ public class AskQuestionsArticleFlowServiceImpl extends ServiceImpl<AskQuestions
         AskQuestionsArticle article = articleMapper.selectOneById(id);
         if (ObjectUtil.isNull(article)) return CommonResult.failed("文章不存在！");
         List<GetAnswerByAskIdVo> vos = new ArrayList<>();
-        //TODO 应该用多表查询懒得写
         List<AskQuestionsArticleFlow> askQuestionsArticleFlows = baseMapper.selectList(new QueryWrapper<AskQuestionsArticleFlow>().lambda()
                 .eq(AskQuestionsArticleFlow::getArticleId, id)
                 .orderByDesc(AskQuestionsArticleFlow::getCreateTime));
