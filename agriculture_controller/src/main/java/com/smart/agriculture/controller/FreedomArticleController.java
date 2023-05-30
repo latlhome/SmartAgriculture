@@ -18,16 +18,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 3：自由帖子相关
  * @author ylx
  * @since 2023-05-16
  */
 @RestController
 @RequestMapping("/freedomArticle")
-@Api(tags = "3==自由帖子")
+@Api(tags = "3：自由帖子相关")
 public class FreedomArticleController {
     @Resource
     private IFreedomArticleService freedomArticleService;

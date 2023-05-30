@@ -15,13 +15,13 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 种植日志控制器
+ * 5：种植日志
  * @author ylx
  * @since 2023-05-16
  */
 @RestController
 @RequestMapping("/plantingLog")
-@Api(tags = "5==种植日志")
+@Api(tags = "5：种植日志")
 public class PlantingLogController {
     @Resource
     private IPlantingLogService plantingLogService;

@@ -17,10 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 6：用户申请
  * @author ylx
  * @since 2023-05-21
  */

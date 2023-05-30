@@ -15,7 +15,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-
+/**
+ * 病害识别--人工智能
+ * @author ylx
+ * @since 2023-05-16
+ */
 @RestController
 @RequestMapping("/diseaseIdentification")
 @Api(tags = "病害识别--人工智能")

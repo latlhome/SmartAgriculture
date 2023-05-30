@@ -7,4 +7,4 @@ COPY disease_model_core/src/main/resources/onnxmodel /work/model
 EXPOSE 8066
 RUN apk update --no-cache && apk add --no-cache tzdata
 ENV TZ Asia/Shanghai
-ENTRYPOINT ["java","-Xms4096M","-Xmx4096M","-jar","SmartAgriculture.jar"]
+ENTRYPOINT ["java","-Xms1024M","-Xmx1024M","-jar","SmartAgriculture.jar"]

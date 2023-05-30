@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 1：用户接口
  * @author ylx
  * @since 2023-05-16
  */

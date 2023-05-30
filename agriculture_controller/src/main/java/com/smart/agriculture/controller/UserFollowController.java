@@ -16,10 +16,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 点赞收藏关注
  * @author ylx
  * @since 2023-05-19
  */

@@ -17,16 +17,13 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 2：病害菜单
  * @author ylx
  * @since 2023-05-16
  */
 @RestController
 @RequestMapping("/diseaseMenu")
-@Api(tags = "2==病害菜单")
+@Api(tags = "2：病害菜单")
 public class DiseaseMenuController {
     @Resource
     private IDiseaseMenuService diseaseMenuService;

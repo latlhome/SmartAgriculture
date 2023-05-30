@@ -14,16 +14,13 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 4：问答回复相关
  * @author ylx
  * @since 2023-05-16
  */
 @RestController
 @RequestMapping("/askQuestionsArticleFlow")
-@Api(tags = "4==问答回复相关")
+@Api(tags = "4：问答回复相关")
 public class AskQuestionsArticleFlowController {
     @Resource
     private IAskQuestionsArticleFlowService baseService;

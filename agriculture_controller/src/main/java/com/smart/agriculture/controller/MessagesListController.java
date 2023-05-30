@@ -14,10 +14,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- * 消息表 前端控制器
- * </p>
- *
+ * 消息列表
  * @author ylx
  * @since 2023-05-23
  */

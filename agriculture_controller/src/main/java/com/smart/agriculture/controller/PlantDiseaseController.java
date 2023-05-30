@@ -17,16 +17,13 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 2：病害数据库
  * @author ylx
  * @since 2023-05-16
  */
 @RestController
 @RequestMapping("/plantDisease")
-@Api( tags = "2==病害数据库")
+@Api( tags = "2：病害数据库")
 public class PlantDiseaseController {
     @Resource
     private IPlantDiseaseService plantDiseaseService;

@@ -17,10 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- * cms_permission  前端控制器
- * </p>
- *
+ * 0：系统 权限管理接口
  * @author ylx
  * @since 2023-05-16
  */

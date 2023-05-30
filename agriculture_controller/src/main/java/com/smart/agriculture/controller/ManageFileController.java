@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-
+/**
+ * 0：图片上传
+ * @author ylx
+ * @since 2023-05-16
+ */
 @RestController
-@Api(tags = "0==图片上传")
+@Api(tags = "0：图片上传")
 @Slf4j
 @RequestMapping(value = "/images/manager")
 public class ManageFileController {

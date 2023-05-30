@@ -16,19 +16,17 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 3：评论相关功能
  * @author ylx
  * @since 2023-05-16
  */
 @RestController
 @RequestMapping("/comment")
-@Api(tags = "3==评论相关功能")
+@Api(tags = "3：评论相关功能")
 public class CommentController {
     @Resource
     private ICommentService commentService;
+
     @GetMapping("/selectCommentById")
     @ApiOperation("查看自由帖子回复详细")
     public CommonResult<PageVo<CommentVo>> selectArticleCommentById(ByIdPage page){

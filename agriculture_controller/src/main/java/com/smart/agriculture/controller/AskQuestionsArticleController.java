@@ -16,16 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
+ * 4：问答帖子相关
  * @author ylx
  * @since 2023-05-16
  */
 @RestController
 @RequestMapping("/askQuestionsArticle")
-@Api(tags = "4==问答帖子相关")
+@Api(tags = "4：问答帖子相关")
 public class AskQuestionsArticleController {
     @Resource
     private IAskQuestionsArticleService baseService;
