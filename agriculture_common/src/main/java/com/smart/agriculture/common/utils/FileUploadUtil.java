@@ -98,7 +98,6 @@ public class FileUploadUtil {
      */
     public static boolean upload(MultipartFile file, String path, String fileName) {
         // 生成新的文件名
-
         String destPath = new File(path).getAbsolutePath();
         String realPath = destPath+"/"+fileName;
         File dest = new File(realPath);

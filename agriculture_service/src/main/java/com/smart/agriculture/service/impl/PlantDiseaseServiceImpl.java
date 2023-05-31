@@ -125,9 +125,11 @@ public class PlantDiseaseServiceImpl extends ServiceImpl<PlantDiseaseMapper, Pla
     public List<Output> SecondaryProcessing(List<Output> outputList) {
         for (Output output : outputList) {
             PlantDisease plantDisease = baseMapper.selectOne(new QueryWrapper<PlantDisease>().lambda().eq(PlantDisease::getDiseaseName, output.getPostprocess()));
-            output.setId(String.valueOf(plantDisease.getId()));
-            output.setSamplePicture(Arrays.asList(plantDisease.getSamplePicture().split("#")).get(0));
-            output.setIntroduction(plantDisease.getIntroduction());
+            if (ObjectUtil.isNotNull(plantDisease)){
+                output.setId(String.valueOf(plantDisease.getId()));
+                output.setSamplePicture(Arrays.asList(plantDisease.getSamplePicture().split("#")).get(0));
+                output.setIntroduction(plantDisease.getIntroduction());
+            }
         }
         return outputList;
     }

@@ -25,6 +25,7 @@ public class DiseaseSearchModelImpl implements DiseaseSearchModel{
     static float failure = 0;
     static float ss = 0;
     static float time = 0;
+    static List<String> errorList = new ArrayList<>();
     private ImagePreprocessing imagePreprocessing;
 
     private ModelReturnDispose modelReturnDispose;
@@ -88,6 +89,7 @@ public class DiseaseSearchModelImpl implements DiseaseSearchModel{
         System.out.println("预测平均置信度: "+ss/sum +"%");
         System.out.println("预测准确率: "+success/sum*100 +"%");
         System.out.println("单个图片预测时间: "+time/sum +"ms");
+        System.out.println("错误列表"+errorList.toString());
     }
 
     public void te(File dir){
@@ -143,6 +145,7 @@ public class DiseaseSearchModelImpl implements DiseaseSearchModel{
                 success++;
             }else {
                 System.out.println("false");
+                errorList.add(dir.getName());
                 failure++;
             }
             System.out.println("执行时间: "+ (etime-stime) +"ms");

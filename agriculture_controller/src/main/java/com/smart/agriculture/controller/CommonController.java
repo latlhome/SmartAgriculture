@@ -36,6 +36,6 @@ public class CommonController {
 
     @PostMapping("/test2")
     public void s() throws IOException {
-        diseaseSearchModel.Test(new File(""));
+        diseaseSearchModel.Test(new File("D:\\Study_need\\IMGS\\onnx"));
     }
 }
