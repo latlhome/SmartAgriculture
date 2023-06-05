@@ -9,12 +9,9 @@ import com.visual.disease.core.utils.Util;
 import org.opencv.core.Scalar;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +23,9 @@ public class DiseaseSearchModelImpl implements DiseaseSearchModel{
     static float ss = 0;
     static float time = 0;
     static List<String> errorList = new ArrayList<>();
-    private ImagePreprocessing imagePreprocessing;
+    private final ImagePreprocessing imagePreprocessing;
 
-    private ModelReturnDispose modelReturnDispose;
+    private final ModelReturnDispose modelReturnDispose;
 
     public DiseaseSearchModelImpl(ImagePreprocessing imagePreprocessing, ModelReturnDispose modelReturnDispose) {
         this.imagePreprocessing = imagePreprocessing;
@@ -37,7 +34,7 @@ public class DiseaseSearchModelImpl implements DiseaseSearchModel{
 
     @Override
     public List<Output> PictureEvaluation(MultipartFile file) {
-        ImageMat imageMat = null;
+        ImageMat imageMat;
 
         try {
             imageMat = ImageMat.fromInputStream(file.getInputStream());
@@ -48,22 +45,6 @@ public class DiseaseSearchModelImpl implements DiseaseSearchModel{
         OnnxTensor onnxTensor = imageMats.resizeAndNoReleaseMat(224, 224)
                 .blobFromImageAndDoReleaseMat(1.0 / 127.5, new Scalar(127.5, 127.5, 127.5), true)
                 .to4dFloatOnnxTensorAndDoReleaseMat(true);
-        try {
-            Util.saveNormalizedTensorAsImage(onnxTensor,"D:\\Study_need\\IMGS\\out\\h.png");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        InputStream inputStream = null;
-        BufferedImage image = null;
-        try {
-            inputStream = file.getInputStream();
-            image = ImageIO.read(inputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        BufferedImage preprocess = imagePreprocessing.preprocess(image);
-        OnnxTensor transform = imagePreprocessing.transform(preprocess);
 
         float[] predict = imagePreprocessing.predict(onnxTensor);
         float[] softmax = modelReturnDispose.softmax(predict);
@@ -118,19 +99,6 @@ public class DiseaseSearchModelImpl implements DiseaseSearchModel{
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            //
-            // InputStream inputStream = null;
-            // BufferedImage image = null;
-            // try {
-            //     inputStream = new FileInputStream(dir);
-            //     image = ImageIO.read(inputStream);
-            // } catch (IOException e) {
-            //     throw new RuntimeException(e);
-            // }
-            // BufferedImage preprocess = imagePreprocessing.preprocess(image);
-            // OnnxTensor transform = imagePreprocessing.transform(preprocess);
-
-
             long stime = System.currentTimeMillis();
             float[] predict = imagePreprocessing.predict(onnxTensor);
             float[] softmax = modelReturnDispose.softmax(predict);

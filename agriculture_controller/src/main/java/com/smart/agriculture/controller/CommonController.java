@@ -28,12 +28,17 @@ public class CommonController {
     private DiseaseSearchModel diseaseSearchModel;
     @Resource
     private IPlantDiseaseService plantDiseaseService;
-    @PostMapping("/one")
+
+    @PostMapping("/forecast")
     public CommonResult<List<Output>> Identification(MultipartFile file){
         List<Output> list = diseaseSearchModel.PictureEvaluation(file);
         return CommonResult.success(plantDiseaseService.SecondaryProcessing(list));
     }
-
+    @PostMapping("/OnlyIdentification")
+    public CommonResult<List<Output>> OnlyIdentification(MultipartFile file){
+        List<Output> list = diseaseSearchModel.PictureEvaluation(file);
+        return CommonResult.success(list);
+    }
     @PostMapping("/test2")
     public void s() throws IOException {
         diseaseSearchModel.Test(new File("D:\\Study_need\\IMGS\\onnx"));

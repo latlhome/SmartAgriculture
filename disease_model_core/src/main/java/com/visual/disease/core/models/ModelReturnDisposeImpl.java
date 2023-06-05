@@ -68,8 +68,8 @@ public class ModelReturnDisposeImpl extends BaseOnnxInfer implements ModelReturn
 
     /**
      * 根据结果返回预测类型
-     * @param output
-     * @return
+     * @param output 模型处理结果
+     * @return 预测one
      */
     // @Override
     public String postprocess1(float[] output) {
