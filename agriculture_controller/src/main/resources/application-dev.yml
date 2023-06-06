@@ -1,7 +1,7 @@
-server:
-  port: 8066
-  address:
 
+custom:
+  http:
+    port: 8066
 spring:
   main:
     allow-bean-definition-overriding: true #bean覆盖支持

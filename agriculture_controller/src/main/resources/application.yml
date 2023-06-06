@@ -2,7 +2,12 @@ server:
   servlet:
     context-path: /
   max-http-header-size: 204857600 #200M
-
+  ssl:
+    key-store: classpath:smart.pfx
+    key-store-password: z4XnNNc632c0
+    key-store-type: pkcs12
+    enabled: true
+  port: 443
 spring:
   security:
     user:
