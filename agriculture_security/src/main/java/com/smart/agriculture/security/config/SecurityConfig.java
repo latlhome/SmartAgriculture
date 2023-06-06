@@ -63,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/sysUser/register",
                         "/sysUser/login",
                         "/test/**",
+                        "/diseaseIdentification/**",
                         "/websocket/**",
                         "/images/**",
                         "/druid/**",
