@@ -110,7 +110,7 @@ public class PlantDiseaseServiceImpl extends ServiceImpl<PlantDiseaseMapper, Pla
         IPage<PlantDisease> plantDiseaseIPage = baseMapper.selectPage(new Page<>(page.getPageNum(), page.getPageSize()), lambda);
         for (PlantDisease record : plantDiseaseIPage.getRecords()) {
             GetPlantDiseaseByIdVo getPlantDiseaseByIdVo = new GetPlantDiseaseByIdVo();
-            BeanUtil.copyProperties(getPlantDiseaseByIdVo,record);
+            BeanUtil.copyProperties(record,getPlantDiseaseByIdVo);
             vo.add(getPlantDiseaseByIdVo);
         }
         return CommonResult.success(vo);

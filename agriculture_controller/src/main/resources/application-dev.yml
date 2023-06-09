@@ -1,6 +1,6 @@
-custom:
-  http:
-    port: 8066
+#custom:
+#  http:
+#    port: 8066
 spring:
   main:
     allow-bean-definition-overriding: true #bean覆盖支持
@@ -27,6 +27,9 @@ spring:
     url: jdbc:mysql://8.130.33.218:3306/smart_agriculture?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8&allowPublicKeyRetrieval=true
     username: root
     password: NoError
+#    url: jdbc:mysql://121.36.222.157:3306/smart_agriculture?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8&allowPublicKeyRetrieval=true
+#    username: root
+#    password: NoError
     druid:
       # 数据库连接驱动
       driver-class-name: com.mysql.cj.jdbc.Driver
