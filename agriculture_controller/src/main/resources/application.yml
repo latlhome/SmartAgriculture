@@ -8,6 +8,8 @@ server:
     key-store-type: pkcs12
     enabled: true
   port: 443
+  tomcat:
+    connection-timeout: 18000000
 spring:
   security:
     user:

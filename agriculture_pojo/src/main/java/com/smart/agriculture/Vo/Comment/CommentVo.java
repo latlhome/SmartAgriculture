@@ -17,7 +17,6 @@ public class CommentVo {
      * 评论人username
      */
     private String commentUserUsername;
-
     /**
      * 评论人昵称
      */
@@ -27,14 +26,18 @@ public class CommentVo {
      */
     private String commentUserPicture;
     /**
+     * 是否拥有者
+     */
+    private boolean owner = false;
+    /**
      * 评论内容
      */
-    private String commentContent;
+    private String content;
 
     /**
-     * 评论数量
+     * 所属评论唯一主键
      */
-    private Integer commentNumber;
+    private Long beCommentedCode;
 
     /**
      * 评论时间

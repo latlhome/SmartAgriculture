@@ -117,6 +117,12 @@
                 <version>${onnxruntime.version}</version>
 
              </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>9.0.33</version>
+            </dependency>
             <!--API文档生成器-->
             <dependency>
                 <groupId>io.springfox</groupId>
