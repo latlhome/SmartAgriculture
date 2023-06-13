@@ -33,8 +33,7 @@ logging:
     com:
       company:
         cache: debug
-  pattern:
-    console: '%p%m%n'
+
 
 web:
   all-images: file:/work/images/
