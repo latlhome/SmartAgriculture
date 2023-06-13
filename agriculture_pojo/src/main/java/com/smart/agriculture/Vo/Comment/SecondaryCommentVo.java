@@ -1,6 +1,9 @@
 package com.smart.agriculture.Vo.Comment;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class SecondaryCommentVo {
@@ -21,4 +24,9 @@ public class SecondaryCommentVo {
      * 评论内容
      */
     private String commentContent;
+    /**
+     * 评论时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date createTime;
 }

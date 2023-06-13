@@ -12,4 +12,12 @@ public enum UserSex {
         this.type = type;
         this.code = code;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
 }

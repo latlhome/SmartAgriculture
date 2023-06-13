@@ -35,9 +35,9 @@ public class CommentVo {
     private String content;
 
     /**
-     * 所属评论唯一主键
+     * 评论数量
      */
-    private Long beCommentedCode;
+    private Integer commentNumber;
 
     /**
      * 评论时间

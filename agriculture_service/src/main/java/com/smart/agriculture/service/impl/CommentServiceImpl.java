@@ -2,9 +2,6 @@ package com.smart.agriculture.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.smart.agriculture.Do.Comment;
 import com.smart.agriculture.Do.FreedomArticle;
@@ -23,12 +20,14 @@ import com.smart.agriculture.mapper.SysUserMapper;
 import com.smart.agriculture.service.ICommentService;
 import com.smart.agriculture.service.IIsVoidService;
 import com.smart.agriculture.service.IMessagesListService;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -50,35 +49,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public CommonResult<PageVo<CommentVo>> selectArticleCommentById(ByIdPage page) {
-        String username = isVoidService.isLogin();
-        PageVo<CommentVo> pageVo = new PageVo<>();
-        List<CommentVo> voList = new ArrayList<>();
-        List<Comment> total = new ArrayList<>();
-        IPage<Comment> commentIPage = baseMapper.selectPage(new Page<>(page.getPageNum(), page.getPageSize()), new QueryWrapper<Comment>().lambda()
-                .eq(Comment::getBeCommentedCode, page.getId()));
-        List<Long> ids = new ArrayList<>();
-        for (Comment record : commentIPage.getRecords()) {
-            ids.add(record.getId());
-            total.add(record);
-        }
-        List<Comment> comments = baseMapper.selectList(new QueryWrapper<Comment>().lambda()
-                .in(Comment::getBeCommentedCode, ids));
-        total.addAll(comments);
-        for (Comment comment : total) {
-            CommentVo commentVo = new CommentVo();
-            BeanUtil.copyProperties(comment,commentVo);
-            SysUser sysUser = sysUserMapper.selectOneByUsername(comment.getReleaseUsername());
-            commentVo.setCommentUserUsername(sysUser.getUsername());
-            commentVo.setCommentUserPicture(sysUser.getHeadPicture());
-            commentVo.setCommentUserNickname(sysUser.getNickname());
-            if (comment.getReleaseUsername().equals(username)) commentVo.setOwner(true);
-            voList.add(commentVo);
-        }
-        pageVo.setData(voList);
-        pageVo.setTotalSize(commentIPage.getTotal());
-        pageVo.setPageNum(commentIPage.getCurrent());
-        pageVo.setTotalPages(commentIPage.getPages());
-        pageVo.setPageSize(commentIPage.getSize());
+        PageVo<CommentVo> pageVo= new PageVo<>();
+        List<CommentVo> commentVos = baseMapper.selectCommentByCode(page.getId());
+        PagedListHolder<CommentVo> pagedListHolder = new PagedListHolder<>(commentVos);
+        pagedListHolder.setPageSize(Math.toIntExact(page.getPageSize()));
+        pagedListHolder.setPage(Math.toIntExact(page.getPageNum()));
+        pageVo.setData(pagedListHolder.getPageList());
+        pageVo.setTotalSize(commentVos.size());
+        pageVo.setPageNum(page.getPageNum());
+        pageVo.setTotalPages((commentVos.size()+page.getPageSize()-1)/page.getPageSize());
+        pageVo.setPageSize(page.getPageSize());
         return CommonResult.success(pageVo);
     }
 
@@ -111,13 +91,22 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         Comment comment = new Comment();
         BeanUtil.copyProperties(dto, comment);
         comment.setReleaseUsername(username);
+        List<Integer> collect = Arrays.stream(BeCommentedType.values())
+                .map(BeCommentedType::getCode)
+                .distinct()
+                .collect(Collectors.toList());
+        if (!collect.contains(dto.getBeCommentedType())){
+            return CommonResult.failed("不存在该被评论的类型");
+        }
         int insert = baseMapper.insert(comment);
         if (insert > 0) {
             if (Objects.equals(dto.getBeCommentedType(), BeCommentedType.ARTICLE_TYPE.getCode())) {
                 FreedomArticle freedomArticle = isVoidService.freedomArticleIsExist(Long.valueOf(dto.getBeCommentedCode()));
+                if (Objects.isNull(freedomArticle)) return CommonResult.failed("该文章不存在！");
                 messagesListService.sendCommentMessage(freedomArticle.getAuthorUsername(), String.valueOf(freedomArticle.getId()), dto.getContent(), MessageType.article.getCode());
             } else if (Objects.equals(dto.getBeCommentedType(), BeCommentedType.COMMENTED_TYPE.getCode())) {
                 Comment commentFlag = isVoidService.commentIsExist(Long.valueOf(dto.getBeCommentedCode()));
+                if (ObjectUtil.isNull(commentFlag)) return CommonResult.failed("该评论不存在!");
                 messagesListService.sendCommentMessage(commentFlag.getReleaseUsername(), String.valueOf(commentFlag.getId()), dto.getContent(), MessageType.comment.getCode());
             }
             return CommonResult.success("回复成功！");

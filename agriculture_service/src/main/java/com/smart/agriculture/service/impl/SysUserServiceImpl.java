@@ -10,9 +10,12 @@ import com.smart.agriculture.Do.SysRole;
 import com.smart.agriculture.Do.SysUser;
 import com.smart.agriculture.Dto.SysUser.ChangeInformationDto;
 import com.smart.agriculture.Dto.SysUser.SysUserRegisterDto;
+import com.smart.agriculture.Vo.SysUser.SysUserVo;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.common.result.ResultCode;
 import com.smart.agriculture.common.utils.JwtTokenUtil;
+import com.smart.agriculture.enums.SysUser.UserSex;
+import com.smart.agriculture.enums.SysUser.UserType;
 import com.smart.agriculture.mapper.SysRoleMapper;
 import com.smart.agriculture.mapper.SysUserMapper;
 import com.smart.agriculture.security.config.CustomAuthorizeException;
@@ -168,5 +171,28 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         int update = baseMapper.update(sysUser, new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, username));
         if (update>0) return CommonResult.success("修改成功！");
         return CommonResult.failed("修改未知错误！");
+    }
+
+    @Override
+    public CommonResult<SysUserVo> getUserData(String username) {
+        SysUser sysUser = userMapper.selectOneByUsername(username);
+        if (ObjectUtil.isNull(sysUser)) return CommonResult.failed("该用户不存在！");
+        SysUserVo sysUserVo = new SysUserVo();
+        BeanUtil.copyProperties(sysUser,sysUserVo);
+        //用户类型
+        for (UserType value : UserType.values()) {
+            if (value.getCode().equals(sysUser.getUserType())){
+                sysUserVo.setUserType(value.getType());
+                break;
+            }
+        }
+        //性别
+        for (UserSex value : UserSex.values()) {
+            if (value.getCode().equals(sysUser.getUserType())){
+                sysUserVo.setSex(value.getType());
+                break;
+            }
+        }
+        return CommonResult.success(sysUserVo);
     }
 }

@@ -4,6 +4,7 @@ package com.smart.agriculture.controller;
 import com.smart.agriculture.Dto.SysUser.ChangeInformationDto;
 import com.smart.agriculture.Dto.SysUser.SysUserLoginDto;
 import com.smart.agriculture.Dto.SysUser.SysUserRegisterDto;
+import com.smart.agriculture.Vo.SysUser.SysUserVo;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.security.pojo.security.RedisUserInfo;
 import com.smart.agriculture.service.ISysUserService;
@@ -56,6 +57,12 @@ public class SysUserController {
     @ApiOperation(value = "修改账号信息")
     public CommonResult<String> changeInformation(ChangeInformationDto dto) {
         return userService.changeInformation(dto);
+    }
+
+    @GetMapping("/userdata/{username}")
+    @ApiOperation(value = "获取用户信息")
+    public CommonResult<SysUserVo> getUserData(@PathVariable("username") String username) {
+        return userService.getUserData(username);
     }
 
     /**

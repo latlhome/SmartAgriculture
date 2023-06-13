@@ -13,7 +13,7 @@
 
     <select id="selectCommentByCode" resultType="com.smart.agriculture.Vo.Comment.CommentVo">
         select c.id,release_username as commentUserUsername , su.head_picture as commentUserPicture ,
-               content as commentContent ,c.create_time as createTime, su.nickname commentUserNickname,
+               content as content ,c.create_time as createTime, su.nickname commentUserNickname,
                (select count(*) from comment where be_commented_code = c.id and c.is_del = 0) commentNumber
         from comment  c left join sys_user su on c.release_username = su.username
         where be_commented_code = #{id} and
@@ -22,11 +22,11 @@
         order by c.create_time desc
     </select>
     <select id="selectCommentById" resultType="com.smart.agriculture.Vo.Comment.SecondaryCommentVo">
-        select c.release_username as commentUserUsername,c.content as commentContent ,su.head_picture as commentUserPicture, su.nickname as commentUserNickname
+        select c.release_username as commentUserUsername,c.content as commentContent ,su.head_picture as commentUserPicture, su.nickname as commentUserNickname , c.create_time
         from comment as c left join sys_user su on c.release_username = su.username
         where su.is_del = 0 and
               c.is_del = 0 and
-              c.id = #{id}
+              c.be_commented_code = #{id}
         order by c.create_time desc
     </select>
     <select id="selectArticleAllComment" resultType="java.lang.String">

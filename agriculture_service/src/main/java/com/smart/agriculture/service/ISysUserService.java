@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.smart.agriculture.Do.SysUser;
 import com.smart.agriculture.Dto.SysUser.ChangeInformationDto;
 import com.smart.agriculture.Dto.SysUser.SysUserRegisterDto;
+import com.smart.agriculture.Vo.SysUser.SysUserVo;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.security.pojo.security.RedisUserInfo;
 
@@ -55,4 +56,11 @@ public interface ISysUserService extends IService<SysUser> {
      */
 
     CommonResult<String> changeInformation(ChangeInformationDto dto);
+
+    /**
+     * 获取用户信息
+     * @param username 用户id
+     * @return 信息结果
+     */
+    CommonResult<SysUserVo> getUserData(String username);
 }
