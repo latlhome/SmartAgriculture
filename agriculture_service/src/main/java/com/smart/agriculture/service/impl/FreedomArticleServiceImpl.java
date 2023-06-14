@@ -21,6 +21,7 @@ import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleListVo;
 import com.smart.agriculture.Vo.FreedomArticle.SelectFreedomArticleVo;
 import com.smart.agriculture.Vo.PageVo;
 import com.smart.agriculture.Vo.SysUser.SysUserArticleVo;
+import com.smart.agriculture.common.config.RedisConstants;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.common.utils.JwtTokenUtil;
 import com.smart.agriculture.enums.SysUser.UserType;
@@ -301,7 +302,7 @@ public class FreedomArticleServiceImpl extends ServiceImpl<FreedomArticleMapper,
     }
     private SelectFreedomArticleVo queryWithPassThrough(String id) {
         String username = jwtTokenUtil.getUsernameByRequest(httpServletRequest);
-        String key = com.smart.agriculture.common.config.RedisConstants.CACHE_ARTICLE_KEY + id;
+        String key = RedisConstants.CACHE_ARTICLE_KEY + id;
         // 1.从redis查询帖子缓存
         String json = stringRedisTemplate.opsForValue().get(key);
         // 2.判断是否存在

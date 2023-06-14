@@ -19,7 +19,6 @@ import com.smart.agriculture.common.config.RedisConstants;
 import com.smart.agriculture.common.result.CommonResult;
 import com.smart.agriculture.mapper.DiseaseMenuMapper;
 import com.smart.agriculture.mapper.PlantDiseaseMapper;
-import com.smart.agriculture.service.IIsVoidService;
 import com.smart.agriculture.service.IPlantDiseaseService;
 import com.visual.disease.core.domain.Output;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -46,8 +45,6 @@ import static com.smart.agriculture.common.config.RedisConstants.CACHE_NULL_TTL;
 public class PlantDiseaseServiceImpl extends ServiceImpl<PlantDiseaseMapper, PlantDisease> implements IPlantDiseaseService {
     @Resource
     private DiseaseMenuMapper diseaseMenuMapper;
-    @Resource
-    private IIsVoidService isVoidService;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
